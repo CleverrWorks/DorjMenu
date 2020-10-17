@@ -1,0 +1,3 @@
+include ':app:SideDrawerMenu'
+include ':app'
+rootProject.name = "SideDrawerMenu"
