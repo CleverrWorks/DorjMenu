@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -23,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
         menu = new SideDrawerMenu(this);
         menu.attachToActivity(this);
+
+        findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menu.toggleMenu();
+            }
+        });
     }
 
     @Override
