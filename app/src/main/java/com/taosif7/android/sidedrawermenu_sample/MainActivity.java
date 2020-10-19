@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         menu = new SideDrawerMenu(this);
-        menu.attachToActivity(this);
+        menu.attachToActivity(this, SideDrawerMenu.direction.RIGHT);
 
         findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {
             @Override

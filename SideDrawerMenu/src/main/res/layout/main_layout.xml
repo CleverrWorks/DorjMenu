@@ -55,13 +55,4 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/menu_nav_helper"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@android:color/transparent"
-        app:layout_anchor="@id/menu_layout"
-        app:layout_anchorGravity="start" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

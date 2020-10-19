@@ -8,8 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -18,21 +17,57 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.taosif7.android.sidedrawermenu.helpers.ContentDragTouchListener;
+import com.taosif7.android.sidedrawermenu.helpers.MenuDragTouchListener;
 
 public class SideDrawerMenu extends LinearLayout {
+
+    public int menu_width = 360;
 
     // Properties
     boolean initialised = false;
     boolean menu_open = false;
-    View menuNavHelper;
     private int screen_width = 600;
+    public direction menu_direction = direction.RIGHT;
+    // Views
+    public LinearLayout menu;
 
     // Components
     Activity bindedActivity;
+    LinearLayout user_content;
 
-    // Views
-    LinearLayout menu;
-    private int menu_width = 360;
+    private void init() {
+        if (initialised) return;
+
+        // Inflate menu
+        inflate(getContext(), R.layout.main_layout, this);
+
+        // set properties to meu
+        menu = findViewById(R.id.menu_layout);
+        user_content = findViewById(R.id.user_content);
+
+
+        // set properties
+        CoordinatorLayout.LayoutParams params_menu = (CoordinatorLayout.LayoutParams) menu.getLayoutParams();
+        params_menu.insetEdge = (menu_direction == direction.RIGHT) ? Gravity.END : Gravity.START;
+        params_menu.gravity = (menu_direction == direction.RIGHT) ? Gravity.END : Gravity.START;
+        menu.setLayoutParams(params_menu);
+
+        CoordinatorLayout.LayoutParams params_content = (CoordinatorLayout.LayoutParams) user_content.getLayoutParams();
+        params_content.dodgeInsetEdges = (menu_direction == direction.RIGHT) ? Gravity.END : Gravity.START;
+        user_content.setLayoutParams(params_content);
+
+        menu.getLayoutParams().width = menu_width;
+        menu.setTranslationX((menu_direction == direction.RIGHT) ? menu_width : -menu_width);
+        findViewById(R.id.profileImage).setClipToOutline(true);
+
+        // Set the content to activity
+        setContent();
+
+        initialised = true;
+    }
 
     public SideDrawerMenu(Context context) {
         super(context);
@@ -51,104 +86,27 @@ public class SideDrawerMenu extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init() {
-        if (initialised) return;
-
-        // Inflate menu
-        inflate(getContext(), R.layout.main_layout, this);
-
-        // set properties to meu
-        menu = findViewById(R.id.menu_layout);
-        menuNavHelper = findViewById(R.id.menu_nav_helper);
-        menu.getLayoutParams().width = menu_width;
-        menu.setTranslationX(menu_width);
-        findViewById(R.id.profileImage).setClipToOutline(true);
-
-        // Set the content to activity
-        setContent();
-
-        initialised = true;
-    }
-
     private void setContent() {
 
         if (bindedActivity == null) {
             throw new IllegalStateException("No Activity attached");
         }
 
-        ViewGroup contentParent = (ViewGroup) bindedActivity.findViewById(android.R.id.content).getRootView();
-        View content = contentParent.getChildAt(0);
-        contentParent.removeView(content);
+        ViewGroup mainContainer = (ViewGroup) bindedActivity.findViewById(android.R.id.content).getRootView();
+        View content = mainContainer.getChildAt(0);
+        mainContainer.removeView(content);
+
+        // Add user content in out layout
         ((ViewGroup) findViewById(R.id.user_content)).addView(content);
-        contentParent.addView(this);
+        mainContainer.addView(this);
 
-        // Set listeners
-        GestureDetector gd = new GestureDetector(getContext(), new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent motionEvent) {
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent motionEvent) {
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                return false;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-
-                float min_swipe_size = (float) (screen_width * 0.2);
-
-                float start_x = motionEvent.getAxisValue(MotionEvent.AXIS_X);
-                float end_x = motionEvent1.getAxisValue(MotionEvent.AXIS_X);
-                float start_y = motionEvent.getAxisValue(MotionEvent.AXIS_Y);
-                float end_y = motionEvent1.getAxisValue(MotionEvent.AXIS_Y);
-
-                float x_mag = Math.abs(start_x - end_x);
-                float y_mag = Math.abs(start_y - end_y);
-
-                if (start_x < end_x && x_mag > y_mag && x_mag >= min_swipe_size) {
-                    closeMenu();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        menu.setOnTouchListener((view, motionEvent) -> {
-            boolean event = gd.onTouchEvent(motionEvent);
-            if (!event) view.performClick();
-            return !event;
-        });
-
-        menuNavHelper.setOnClickListener(view -> toggleMenu());
+        menu.setOnTouchListener(new MenuDragTouchListener(this));
+        user_content.setOnTouchListener(new ContentDragTouchListener(this));
     }
 
-    /*
-     *
-     *
-     * Exposed Methods
-     *
-     *
-     */
-
-    public void attachToActivity(Activity activity) {
+    public void attachToActivity(Activity activity, direction direction) {
         bindedActivity = activity;
+        menu_direction = direction;
 
         // Get screen width
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -195,37 +153,34 @@ public class SideDrawerMenu extends LinearLayout {
         });
     }
 
+    /*
+     *
+     *
+     * Exposed Methods
+     *
+     *
+     */
+
+    public void closeMenu() {
+
+        // Animate menu X coordinate
+        ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", (menu_direction == direction.RIGHT) ? menu_width : -menu_width);
+        animation.setDuration(300);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
+    }
+
     public void openMenu() {
-        if (menu_open) return;
-        menu_open = true;
 
         // Animate menu X coordinate
         ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", 0f);
         animation.setDuration(300);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
-
-        // Change menu nav helper size
-        ViewGroup.LayoutParams lp = menuNavHelper.getLayoutParams();
-        lp.width = screen_width - menu_width;
-        menuNavHelper.setLayoutParams(lp);
     }
 
-    public void closeMenu() {
-        if (!menu_open) return;
-        menu_open = false;
-
-        // Animate menu X coordinate
-        ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", menu_width);
-        animation.setDuration(300);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
-
-        // Change menu nav helper size
-        ViewGroup.LayoutParams lp = menuNavHelper.getLayoutParams();
-        lp.width = (int) (screen_width * 0.1);
-        menuNavHelper.setLayoutParams(lp);
-    }
+    // Constants
+    public enum direction {LEFT, RIGHT}
 
     public void toggleMenu() {
         if (menu_open) closeMenu();
