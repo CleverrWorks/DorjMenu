@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -24,19 +25,43 @@ import com.taosif7.android.sidedrawermenu.helpers.MenuDragTouchListener;
 
 public class SideDrawerMenu extends LinearLayout {
 
-    public int menu_width = 360;
-
     // Properties
+    public int menu_width = 360;
+    public FrameLayout user_content;
     boolean initialised = false;
     boolean menu_open = false;
     private int screen_width = 600;
     public direction menu_direction = direction.RIGHT;
+
     // Views
     public LinearLayout menu;
 
+    private void setContent() {
+
+        if (bindedActivity == null) {
+            throw new IllegalStateException("No Activity attached");
+        }
+
+        ViewGroup mainContainer = (ViewGroup) bindedActivity.findViewById(android.R.id.content).getRootView();
+        View content = mainContainer.getChildAt(0);
+        ViewGroup user_container = bindedActivity.findViewById(android.R.id.content);
+        mainContainer.removeView(content);
+
+        // Add user content in out layout
+        ((ViewGroup) findViewById(R.id.user_content)).addView(content);
+        mainContainer.addView(this);
+
+        // Touch Listeners
+        ContentDragTouchListener contentDrag = new ContentDragTouchListener(this);
+        MenuDragTouchListener menuDrag = new MenuDragTouchListener(this);
+
+        menu.setOnTouchListener(menuDrag);
+        user_content.setOnTouchListener(contentDrag);
+        ((ViewGroup) user_container.getChildAt(0)).setOnTouchListener(contentDrag);
+    }
+
     // Components
     Activity bindedActivity;
-    LinearLayout user_content;
 
     private void init() {
         if (initialised) return;
@@ -86,23 +111,8 @@ public class SideDrawerMenu extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void setContent() {
-
-        if (bindedActivity == null) {
-            throw new IllegalStateException("No Activity attached");
-        }
-
-        ViewGroup mainContainer = (ViewGroup) bindedActivity.findViewById(android.R.id.content).getRootView();
-        View content = mainContainer.getChildAt(0);
-        mainContainer.removeView(content);
-
-        // Add user content in out layout
-        ((ViewGroup) findViewById(R.id.user_content)).addView(content);
-        mainContainer.addView(this);
-
-        menu.setOnTouchListener(new MenuDragTouchListener(this));
-        user_content.setOnTouchListener(new ContentDragTouchListener(this));
-    }
+    // Constants
+    public enum direction {LEFT, RIGHT}
 
     public void attachToActivity(Activity activity, direction direction) {
         bindedActivity = activity;
@@ -178,9 +188,6 @@ public class SideDrawerMenu extends LinearLayout {
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
     }
-
-    // Constants
-    public enum direction {LEFT, RIGHT}
 
     public void toggleMenu() {
         if (menu_open) closeMenu();

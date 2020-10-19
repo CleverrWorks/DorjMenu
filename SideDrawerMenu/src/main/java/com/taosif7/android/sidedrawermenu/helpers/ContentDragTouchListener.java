@@ -8,7 +8,7 @@ import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
 
 public class ContentDragTouchListener implements View.OnTouchListener {
 
-    public float start_x = 0;
+    public float start_x = 0, start_y = 0;
 
     int menu_open_value, menu_close_value;
     Context context;
@@ -24,21 +24,23 @@ public class ContentDragTouchListener implements View.OnTouchListener {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            start_x = motionEvent.getRawX() - view.getX();
-            return true;
+            start_x = motionEvent.getRawX() - drawer.user_content.getX();
+            start_y = motionEvent.getRawY() - view.getY();
+            return false;
         } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-            float displacement = motionEvent.getRawX() - start_x;
+            float displacement_x = motionEvent.getRawX() - start_x;
+            float displacement_y = motionEvent.getRawY() - start_y;
 
-            if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
-                if (drawer.menu.getTranslationX() + displacement + drawer.menu_width >= menu_open_value)
-                    drawer.menu.setTranslationX(displacement + drawer.menu_width);
-            } else {
-                if (drawer.menu.getTranslationX() + displacement - drawer.menu_width <= menu_open_value)
-                    drawer.menu.setTranslationX(displacement - drawer.menu_width);
-            }
-
-
-            return true;
+            if (Math.abs(displacement_x) >= Math.abs(displacement_y)) {
+                if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
+                    if (drawer.menu.getTranslationX() + displacement_x + drawer.menu_width >= menu_open_value)
+                        drawer.menu.setTranslationX(displacement_x + drawer.menu_width);
+                } else {
+                    if (drawer.menu.getTranslationX() + displacement_x - drawer.menu_width <= menu_open_value)
+                        drawer.menu.setTranslationX(displacement_x - drawer.menu_width);
+                }
+                return true;
+            } else return false;
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             start_x = 0;
 
@@ -59,7 +61,6 @@ public class ContentDragTouchListener implements View.OnTouchListener {
 
             return false;
         } else {
-            view.performClick();
             return false;
         }
     }

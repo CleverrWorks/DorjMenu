@@ -6,12 +6,18 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/user_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:isScrollContainer="true"
+        android:nestedScrollingEnabled="true"
         android:orientation="vertical"
+        android:touchscreenBlocksFocus="true"
         app:layout_dodgeInsetEdges="right" />
 
     <LinearLayout
