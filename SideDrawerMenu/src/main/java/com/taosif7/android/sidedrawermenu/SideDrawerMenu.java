@@ -58,6 +58,7 @@ public class SideDrawerMenu extends LinearLayout {
         menu.setOnTouchListener(menuDrag);
         user_content.setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setOnTouchListener(contentDrag);
+        ((ViewGroup) user_container.getChildAt(0)).setFitsSystemWindows(true);
     }
 
     // Components
