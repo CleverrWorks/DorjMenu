@@ -3,6 +3,7 @@ package com.taosif7.android.sidedrawermenu.helpers;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
 
@@ -32,13 +33,24 @@ public class ContentDragTouchListener implements View.OnTouchListener {
             float displacement_y = motionEvent.getRawY() - start_y;
 
             if (Math.abs(displacement_x) >= Math.abs(displacement_y)) {
+
+                ViewGroup.LayoutParams drawerImageParams = drawer.IV_header_bg.getLayoutParams();
+
                 if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
-                    if (drawer.menu.getTranslationX() + displacement_x + drawer.menu_width >= menu_open_value)
+                    if (drawer.menu.getTranslationX() + displacement_x + drawer.menu_width >= menu_open_value) {
                         drawer.menu.setTranslationX(displacement_x + drawer.menu_width);
+                        drawerImageParams.width = (int) (drawer.menu_width - drawer.menu.getTranslationX() + 2);
+                    }
                 } else {
-                    if (drawer.menu.getTranslationX() + displacement_x - drawer.menu_width <= menu_open_value)
+                    if (drawer.menu.getTranslationX() + displacement_x - drawer.menu_width <= menu_open_value) {
                         drawer.menu.setTranslationX(displacement_x - drawer.menu_width);
+                        drawerImageParams.width = (int) Math.abs(drawer.menu_width + drawer.menu.getTranslationX() + 2);
+                    }
                 }
+
+                // Set drawer header bg Layout params
+                drawer.IV_header_bg.setLayoutParams(drawerImageParams);
+
                 return true;
             } else return false;
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {

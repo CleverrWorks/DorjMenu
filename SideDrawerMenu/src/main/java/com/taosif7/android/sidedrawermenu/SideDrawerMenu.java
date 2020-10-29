@@ -1,6 +1,7 @@
 package com.taosif7.android.sidedrawermenu;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +38,7 @@ public class SideDrawerMenu extends LinearLayout {
 
     // Views
     public LinearLayout menu;
+    public ImageView IV_header_bg;
 
     private void setContent() {
 
@@ -73,6 +77,8 @@ public class SideDrawerMenu extends LinearLayout {
         // set properties to meu
         menu = findViewById(R.id.menu_layout);
         user_content = findViewById(R.id.user_content);
+        IV_header_bg = findViewById(R.id.drawer_header_bg);
+        View menuEndBorder = findViewById(R.id.menuEndBorder);
 
 
         // set properties
@@ -88,6 +94,14 @@ public class SideDrawerMenu extends LinearLayout {
         menu.getLayoutParams().width = menu_width;
         menu.setTranslationX((menu_direction == direction.RIGHT) ? menu_width : -menu_width);
         findViewById(R.id.profileImage).setClipToOutline(true);
+
+        RelativeLayout.LayoutParams params_headerImage = (RelativeLayout.LayoutParams) IV_header_bg.getLayoutParams();
+        params_headerImage.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
+        IV_header_bg.setLayoutParams(params_headerImage);
+
+        CoordinatorLayout.LayoutParams params_border = (CoordinatorLayout.LayoutParams) menuEndBorder.getLayoutParams();
+        params_border.anchorGravity = (menu_direction == direction.RIGHT) ? Gravity.START : Gravity.END;
+        menuEndBorder.setLayoutParams(params_border);
 
         // Set the content to activity
         setContent();
@@ -179,6 +193,18 @@ public class SideDrawerMenu extends LinearLayout {
         animation.setDuration(300);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
+
+        // Animate drawer Image bg
+        ValueAnimator anim = ValueAnimator.ofInt(IV_header_bg.getMeasuredWidth(), 0);
+        anim.addUpdateListener(valueAnimator -> {
+            int val = (Integer) valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams drawerImageParams = IV_header_bg.getLayoutParams();
+            drawerImageParams.width = val;
+            IV_header_bg.setLayoutParams(drawerImageParams);
+        });
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(400);
+        anim.start();
     }
 
     public void openMenu() {
@@ -188,6 +214,18 @@ public class SideDrawerMenu extends LinearLayout {
         animation.setDuration(300);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
+
+        // Animate drawer Image bg
+        ValueAnimator anim = ValueAnimator.ofInt(IV_header_bg.getMeasuredWidth(), menu_width);
+        anim.addUpdateListener(valueAnimator -> {
+            int val = (Integer) valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams drawerImageParams = IV_header_bg.getLayoutParams();
+            drawerImageParams.width = val;
+            IV_header_bg.setLayoutParams(drawerImageParams);
+        });
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(200);
+        anim.start();
     }
 
     public void toggleMenu() {

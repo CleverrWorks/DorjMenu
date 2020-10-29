@@ -3,6 +3,7 @@ package com.taosif7.android.sidedrawermenu.helpers;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
 
@@ -29,14 +30,22 @@ public class MenuDragTouchListener implements View.OnTouchListener {
         } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
             float displacement = motionEvent.getRawX() - down_x;
 
+            ViewGroup.LayoutParams drawerImageParams = drawer.IV_header_bg.getLayoutParams();
+
             if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
-                if (view.getTranslationX() + displacement >= menu_open_value)
+                if (view.getTranslationX() + displacement >= menu_open_value) {
                     view.setTranslationX(displacement);
+                    drawerImageParams.width = (int) (drawer.menu_width - drawer.menu.getTranslationX() + 2);
+                }
             } else {
-                if (view.getTranslationX() + displacement <= menu_open_value)
+                if (view.getTranslationX() + displacement <= menu_open_value) {
                     view.setTranslationX(displacement);
+                    drawerImageParams.width = (int) Math.abs(drawer.menu_width + drawer.menu.getTranslationX() + 2);
+                }
             }
 
+            // Set drawer header bg Layout params
+            drawer.IV_header_bg.setLayoutParams(drawerImageParams);
 
             return true;
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {

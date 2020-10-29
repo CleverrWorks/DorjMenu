@@ -25,40 +25,66 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/white"
         android:fitsSystemWindows="false"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="60dp"
         android:translationX="0dp"
         app:layout_insetEdge="right">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="?actionBarSize"
-            android:layout_height="?actionBarSize"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/circle_border"
-            android:outlineProvider="background"
-            android:src="@drawable/profile_placeholder" />
-
-        <TextView
-            android:id="@+id/username"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Some Random Username"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Email@Arbitrary.com"
-            android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/drawer_header_bg"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/drawer_default_bg" />
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circle_border"
+                android:outlineProvider="background"
+                android:src="@drawable/profile_placeholder" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profileImage"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Some Random Username"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Email@Arbitrary.com"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
     </LinearLayout>
+
+    <View
+        android:id="@+id/menuEndBorder"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="#000"
+        android:fitsSystemWindows="true"
+        app:layout_anchor="@id/menu_layout" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
