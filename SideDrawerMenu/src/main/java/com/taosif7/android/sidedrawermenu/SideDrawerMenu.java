@@ -99,8 +99,8 @@ public class SideDrawerMenu extends LinearLayout {
         params_headerImage.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
         IV_header_bg.setLayoutParams(params_headerImage);
 
-        CoordinatorLayout.LayoutParams params_border = (CoordinatorLayout.LayoutParams) menuEndBorder.getLayoutParams();
-        params_border.anchorGravity = (menu_direction == direction.RIGHT) ? Gravity.START : Gravity.END;
+        RelativeLayout.LayoutParams params_border = (RelativeLayout.LayoutParams) menuEndBorder.getLayoutParams();
+        params_border.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
         menuEndBorder.setLayoutParams(params_border);
 
         // Set the content to activity

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="menu_bg">#292929</color>
+    <color name="menu_header_top">#80292929</color>
+    <color name="menu_bg_invert">#FAFAFA</color>
+    <color name="menu_outline">#999999</color>
+    <color name="header_username">#ffffff</color>
+    <color name="header_email">#A0A0A0</color>
+</resources>
