@@ -5,11 +5,14 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -17,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +28,14 @@ import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.taosif7.android.sidedrawermenu.helpers.ContentDragTouchListener;
+import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
 import com.taosif7.android.sidedrawermenu.helpers.MenuDragTouchListener;
+import com.taosif7.android.sidedrawermenu.models.menuItem;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SideDrawerMenu extends LinearLayout {
 
@@ -37,8 +48,22 @@ public class SideDrawerMenu extends LinearLayout {
     public direction menu_direction = direction.RIGHT;
 
     // Views
-    public LinearLayout menu;
+    public RelativeLayout menu;
     public ImageView IV_header_bg;
+    public LinearLayout LL_itemsContainer;
+
+    // Data
+    List<menuItem> items = new ArrayList<>();
+    Map<String, View> highlighterViews = new HashMap<String, View>();
+    int highlightColor = -1;
+
+    // Other
+    DrawerCallbacks listener;
+
+    public SideDrawerMenu(Context context, DrawerCallbacks listener) {
+        super(context);
+        this.listener = listener;
+    }
 
     private void setContent() {
 
@@ -63,10 +88,100 @@ public class SideDrawerMenu extends LinearLayout {
         user_content.setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setFitsSystemWindows(true);
+
+        // Build menu
+        LL_itemsContainer.removeAllViews();
+        for (menuItem item : items) {
+            View v = getMenuItemView(item, 1);
+            LL_itemsContainer.addView(v);
+        }
+    }
+
+    private boolean highlightMenuItem(List<menuItem> items) {
+        boolean anySelected = false;
+        for (menuItem item : items) {
+            anySelected |= item.isSelected();
+            if (item.hasSubItems()) anySelected |= highlightMenuItem(item.getSubItems());
+            highlighterViews.get(item.getId()).setVisibility(item.isSelected() ? VISIBLE : INVISIBLE);
+        }
+
+        return anySelected;
+    }
+
+    private boolean hasSelectedSubItem(List<menuItem> items) {
+        boolean hasSelected = false;
+        for (menuItem item : items) {
+            hasSelected |= item.isSelected();
+            if (item.hasSubItems()) hasSelected |= hasSelectedSubItem(item.getSubItems());
+        }
+        return hasSelected;
+    }
+
+    private void setSelected(String id, List<menuItem> items) {
+        for (menuItem item : items) {
+            item.setSelected(item.getId().equals(id));
+            if (item.hasSubItems()) setSelected(id, item.getSubItems());
+        }
     }
 
     // Components
     Activity bindedActivity;
+
+    private View getMenuItemView(menuItem item, int level) {
+        LinearLayout menuView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.menu_item, null);
+        ((TextView) menuView.findViewById(R.id.item_label)).setText(item.getLabel());
+        ((ImageView) menuView.findViewById(R.id.item_icon)).setImageDrawable(item.getIcon());
+        highlighterViews.put(item.getId(), menuView.findViewById(R.id.item_highlight));
+        if (highlightColor != -1)
+            menuView.findViewById(R.id.item_highlight).setBackgroundTintList(ColorStateList.valueOf(highlightColor));
+
+        if (item.hasSubItems()) {
+            for (menuItem subItem : item.getSubItems()) {
+                LinearLayout subItemView = (LinearLayout) getMenuItemView(subItem, level + 1);
+                subItemView.setVisibility(GONE);
+                menuView.addView(subItemView);
+            }
+
+            menuView.findViewById(R.id.item_arrow).setVisibility(VISIBLE);
+            menuView.setTag("collapsed");
+
+            menuView.setOnClickListener(view -> {
+                if (menuView.getTag().equals("collapsed")) {
+                    for (int i = 1; i < menuView.getChildCount(); i++)
+                        menuView.getChildAt(i).setVisibility(VISIBLE);
+
+                    menuView.setTag("expanded");
+                    menuView.findViewById(R.id.item_arrow).setRotationX(180);
+                    highlighterViews.get(item.getId()).setVisibility(INVISIBLE);
+                } else {
+                    for (int i = 1; i < menuView.getChildCount(); i++)
+                        menuView.getChildAt(i).setVisibility(GONE);
+
+                    menuView.setTag("collapsed");
+                    menuView.findViewById(R.id.item_arrow).setRotationX(0);
+                    highlighterViews.get(item.getId()).setVisibility(hasSelectedSubItem(item.getSubItems()) ? VISIBLE : INVISIBLE);
+                }
+            });
+        } else {
+            menuView.setTag(item.getId());
+            menuView.setOnClickListener(view -> {
+                if (listener != null) {
+                    boolean highlight = listener.onDrawerMenuItemClick(item);
+                    if (highlight) {
+                        setSelected(item.getId(), items);
+                        highlightMenuItem(items);
+                    }
+                }
+            });
+        }
+
+        // Set Item indent
+        LinearLayout.LayoutParams params = (LayoutParams) menuView.findViewById(R.id.item_body).getLayoutParams();
+        params.leftMargin = level * (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        menuView.findViewById(R.id.item_body).setLayoutParams(params);
+
+        return menuView;
+    }
 
     private void init() {
         if (initialised) return;
@@ -78,6 +193,7 @@ public class SideDrawerMenu extends LinearLayout {
         menu = findViewById(R.id.menu_layout);
         user_content = findViewById(R.id.user_content);
         IV_header_bg = findViewById(R.id.drawer_header_bg);
+        LL_itemsContainer = findViewById(R.id.itemsContainer);
         View menuEndBorder = findViewById(R.id.menuEndBorder);
 
 
@@ -107,10 +223,6 @@ public class SideDrawerMenu extends LinearLayout {
         setContent();
 
         initialised = true;
-    }
-
-    public SideDrawerMenu(Context context) {
-        super(context);
     }
 
     public SideDrawerMenu(Context context, AttributeSet attrs) {
@@ -185,6 +297,15 @@ public class SideDrawerMenu extends LinearLayout {
      *
      *
      */
+
+    public void setItems(List<menuItem> items) {
+        this.items.clear();
+        this.items.addAll(items);
+    }
+
+    public void setItemHighlightColor(int color) {
+        this.highlightColor = color;
+    }
 
     public void closeMenu() {
 

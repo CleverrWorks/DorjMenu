@@ -5,14 +5,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
+import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
+import com.taosif7.android.sidedrawermenu.models.menuItem;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
     private SideDrawerMenu menu;
 
@@ -22,8 +29,45 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menu = new SideDrawerMenu(this);
-        menu.attachToActivity(this, SideDrawerMenu.direction.RIGHT);
+        List<menuItem> items = new ArrayList<>();
+
+        menuItem mainMenu = new menuItem("Devices", ContextCompat.getDrawable(this, R.drawable.ic_baseline_devices_other_24));
+        menuItem phonesItems = new menuItem("Phones", ContextCompat.getDrawable(this, R.drawable.ic_baseline_smartphone_24));
+        menuItem tabletsItems = new menuItem("Tablets", ContextCompat.getDrawable(this, R.drawable.ic_baseline_tablet_android_24));
+        menuItem watchItems = new menuItem("Watches", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24));
+        phonesItems.addSubItems(
+                new menuItem("Xiaomi Mi A3", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_android_24)),
+                new menuItem("Redmi 3s Prime", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_android_24)),
+                new menuItem("Galaxy note 9", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_android_24)),
+                new menuItem("Iphone 5", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_iphone_24)),
+                new menuItem("Iphone 5s", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_iphone_24)),
+                new menuItem("Iphone 8", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_iphone_24)),
+                new menuItem("Iphone 12", ContextCompat.getDrawable(this, R.drawable.ic_baseline_phone_iphone_24)));
+        tabletsItems.addSubItems(
+                new menuItem("Samsung Tab 4", ContextCompat.getDrawable(this, R.drawable.ic_baseline_tablet_android_24)),
+                new menuItem("Samsung Tab 7", ContextCompat.getDrawable(this, R.drawable.ic_baseline_tablet_android_24)),
+                new menuItem("Ipad Air", ContextCompat.getDrawable(this, R.drawable.ic_baseline_tablet_mac_24))
+        );
+        watchItems.addSubItems(
+                new menuItem("Watch", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 2", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 5", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 7", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 11", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 12", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
+                new menuItem("Watch 16", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)));
+
+        mainMenu.addSubItems(
+                phonesItems,
+                tabletsItems,
+                watchItems);
+
+        items.add(mainMenu);
+        items.add(new menuItem("Travel", ContextCompat.getDrawable(this, R.drawable.ic_baseline_business_center_24)));
+
+        menu = new SideDrawerMenu(this, this);
+        menu.setItems(items);
+        menu.attachToActivity(this, SideDrawerMenu.direction.LEFT);
 
         findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,5 +89,13 @@ public class MainActivity extends AppCompatActivity {
             menu.toggleMenu();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onDrawerMenuItemClick(menuItem menuItem) {
+        if (menuItem.getLabel().equals("Travel")) return false;
+        ((TextView) findViewById(R.id.selectedItemText)).setText(menuItem.getLabel() + " is Selected");
+        menu.closeMenu();
+        return true;
     }
 }

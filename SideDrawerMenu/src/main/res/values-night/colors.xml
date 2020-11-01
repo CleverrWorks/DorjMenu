@@ -6,4 +6,5 @@
     <color name="menu_outline">#999999</color>
     <color name="header_username">#ffffff</color>
     <color name="header_email">#A0A0A0</color>
+    <color name="item_highlight">#284451</color>
 </resources>
