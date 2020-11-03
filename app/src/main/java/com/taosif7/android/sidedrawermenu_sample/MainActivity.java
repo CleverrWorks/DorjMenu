@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
         List<menuItem> items = new ArrayList<>();
 
-        menuItem mainMenu = new menuItem("Devices", ContextCompat.getDrawable(this, R.drawable.ic_baseline_devices_other_24));
+        menuItem devicesMenu = new menuItem("Devices", ContextCompat.getDrawable(this, R.drawable.ic_baseline_devices_other_24));
         menuItem phonesItems = new menuItem("Phones", ContextCompat.getDrawable(this, R.drawable.ic_baseline_smartphone_24));
         menuItem tabletsItems = new menuItem("Tablets", ContextCompat.getDrawable(this, R.drawable.ic_baseline_tablet_android_24));
         menuItem watchItems = new menuItem("Watches", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24));
@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
                 new menuItem("Watch 12", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)),
                 new menuItem("Watch 16", ContextCompat.getDrawable(this, R.drawable.ic_baseline_watch_24)));
 
-        mainMenu.addSubItems(
+        devicesMenu.addSubItems(
                 phonesItems,
                 tabletsItems,
                 watchItems);
 
-        items.add(mainMenu);
+        items.add(devicesMenu);
         items.add(new menuItem("Travel", ContextCompat.getDrawable(this, R.drawable.ic_baseline_business_center_24)));
 
         menu = new SideDrawerMenu(this, this);

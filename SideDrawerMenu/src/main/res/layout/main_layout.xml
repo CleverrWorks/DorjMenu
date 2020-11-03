@@ -86,12 +86,15 @@
         </RelativeLayout>
 
         <ScrollView
+            android:id="@+id/menuItemsScrollview"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="wrap_content"
             android:layout_below="@id/menu_header"
             android:animateLayoutChanges="true">
 
             <LinearLayout
+                android:paddingBottom="20dp"
                 android:id="@+id/itemsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +102,24 @@
                 android:orientation="vertical" />
 
         </ScrollView>
+
+        <View
+            android:id="@+id/menu_shadow_top"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/menuItemsScrollview"
+            android:alpha="0.0"
+            android:background="@drawable/menu_scroll_gradient"
+            android:scaleY="-1" />
+
+        <View
+            android:id="@+id/menu_shadow_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@id/menuItemsScrollview"
+            android:alpha="0.0"
+            android:background="@drawable/menu_scroll_gradient" />
+
 
         <View
             android:id="@+id/menuEndBorder"

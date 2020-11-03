@@ -15,11 +15,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -95,6 +97,17 @@ public class SideDrawerMenu extends LinearLayout {
             View v = getMenuItemView(item, 1);
             LL_itemsContainer.addView(v);
         }
+
+        // Add shadow gradients for menu scrollview
+        ScrollView SV_menuItems = findViewById(R.id.menuItemsScrollview);
+        SV_menuItems.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int bottom = (SV_menuItems.getChildAt(SV_menuItems.getChildCount() - 1)).getHeight() - SV_menuItems.getHeight() - SV_menuItems.getScrollY();
+                findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menuItems.getScrollY() / 50f)));
+                findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
+            }
+        });
     }
 
     private boolean highlightMenuItem(List<menuItem> items) {
@@ -139,7 +152,7 @@ public class SideDrawerMenu extends LinearLayout {
             for (menuItem subItem : item.getSubItems()) {
                 LinearLayout subItemView = (LinearLayout) getMenuItemView(subItem, level + 1);
                 subItemView.setVisibility(GONE);
-                menuView.addView(subItemView);
+                menuView.addView(subItemView, menuView.getChildCount() - 1);
             }
 
             menuView.findViewById(R.id.item_arrow).setVisibility(VISIBLE);
@@ -153,6 +166,8 @@ public class SideDrawerMenu extends LinearLayout {
                     menuView.setTag("expanded");
                     menuView.findViewById(R.id.item_arrow).setRotationX(180);
                     highlighterViews.get(item.getId()).setVisibility(INVISIBLE);
+
+                    menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(VISIBLE);
                 } else {
                     for (int i = 1; i < menuView.getChildCount(); i++)
                         menuView.getChildAt(i).setVisibility(GONE);
@@ -160,6 +175,8 @@ public class SideDrawerMenu extends LinearLayout {
                     menuView.setTag("collapsed");
                     menuView.findViewById(R.id.item_arrow).setRotationX(0);
                     highlighterViews.get(item.getId()).setVisibility(hasSelectedSubItem(item.getSubItems()) ? VISIBLE : INVISIBLE);
+
+                    menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(GONE);
                 }
             });
         } else {
