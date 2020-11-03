@@ -15,6 +15,7 @@ public class menuItem {
     String label;
     Drawable icon;
     List<menuItem> subItems = new ArrayList<>();
+    menuItem parent;
 
     boolean selected = false;
 
@@ -31,6 +32,7 @@ public class menuItem {
     }
 
     public void addSubItem(menuItem item) {
+        item.parent = this;
         this.subItems.add(item);
     }
 
@@ -64,5 +66,13 @@ public class menuItem {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public menuItem getParent() {
+        return this.parent;
+    }
+
+    private void setParent(menuItem parentItem) {
+        this.parent = parentItem;
     }
 }

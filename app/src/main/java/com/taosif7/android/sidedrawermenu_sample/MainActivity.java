@@ -96,6 +96,25 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         if (menuItem.getLabel().equals("Travel")) return false;
         ((TextView) findViewById(R.id.selectedItemText)).setText(menuItem.getLabel() + " is Selected");
         menu.closeMenu();
+
+        menuItem parent = menuItem.getParent();
+        if (parent != null) {
+            switch (parent.getLabel()) {
+                case "Phones":
+                    if (menuItem.getLabel().contains("Iphone"))
+                        menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_purple));
+                    else
+                        menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
+                    break;
+                case "Tablets":
+                    menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+                    break;
+                case "Watches":
+                    menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
+                    break;
+            }
+        }
+
         return true;
     }
 }
