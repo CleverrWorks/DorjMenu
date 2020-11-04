@@ -58,8 +58,7 @@ public class SideDrawerMenu extends LinearLayout {
 
     // Other
     DrawerCallbacks listener;
-    private ListMenu menuItems_list;
-    private PageMenu menuItems_pages;
+    DrawerMenuModule drawerMenuModule;
 
     public SideDrawerMenu(Context context, DrawerCallbacks listener) {
         super(context);
@@ -209,42 +208,28 @@ public class SideDrawerMenu extends LinearLayout {
     public void setItems(List<menuItem> items) {
         this.items.clear();
         this.items.addAll(items);
-        if (menuType == MenuType.MENU_SUBLIST && menuItems_list != null)
-            menuItems_list.setItems(items);
-        if (menuType == MenuType.MENU_PAGES && menuItems_pages != null)
-            menuItems_pages.setItems(items);
+        if (drawerMenuModule != null)
+            drawerMenuModule.setItems(items);
     }
 
     public void setItemHighlightColor(int color) {
         this.highlightColor = color;
-        if (menuType == MenuType.MENU_SUBLIST && menuItems_list != null)
-            menuItems_list.setItemHighlightColor(color);
-        if (menuType == MenuType.MENU_PAGES && menuItems_pages != null)
-            menuItems_pages.setItemHighlightColor(color);
+        if (drawerMenuModule != null)
+            drawerMenuModule.setItemHighlightColor(color);
     }
 
     public void setMenuType(MenuType type) {
         this.menuType = type;
 
-        menuItems_list = findViewById(R.id.menu_list);
-        menuItems_pages = findViewById(R.id.menu_page);
+        drawerMenuModule = (type == MenuType.MENU_SUBLIST) ? findViewById(R.id.menu_list) : findViewById(R.id.menu_page);
 
-        if (menuItems_pages == null || menuItems_list == null) return;
+        if (drawerMenuModule == null) return;
 
-        menuItems_list.setVisibility(GONE);
-        menuItems_pages.setVisibility(GONE);
+        drawerMenuModule.setVisibility(VISIBLE);
+        drawerMenuModule.setItems(items);
+        if (highlightColor != -1) drawerMenuModule.setItemHighlightColor(highlightColor);
+        if (listener != null) drawerMenuModule.setListener(listener);
 
-        if (menuType == MenuType.MENU_SUBLIST) {
-            menuItems_list.setVisibility(VISIBLE);
-            menuItems_list.setItems(items);
-            if (highlightColor != -1) menuItems_list.setItemHighlightColor(highlightColor);
-            if (listener != null) menuItems_list.setListener(listener);
-        } else {
-            menuItems_pages.setVisibility(VISIBLE);
-            menuItems_pages.setItems(items);
-            if (highlightColor != -1) menuItems_pages.setItemHighlightColor(highlightColor);
-            if (listener != null) menuItems_pages.setListener(listener);
-        }
     }
 
     public void closeMenu() {

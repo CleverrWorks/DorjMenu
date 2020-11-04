@@ -8,33 +8,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
 import com.taosif7.android.sidedrawermenu.models.menuItem;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class ListMenu extends RelativeLayout {
-
+class ListMenu extends DrawerMenuModule {
 
     // Data
-    List<menuItem> items = new ArrayList<>();
     Map<String, View> highlighterViews = new HashMap<String, View>();
-    int highlightColor = -1;
 
     // View references
     ScrollView SV_menu;
     LinearLayout LL_itemsContainer;
     View topShadow, bottomShadow;
 
-    // Components
-    private DrawerCallbacks listener;
+    /*
+     *
+     *
+     * Constructors
+     *
+     *
+     *
+     */
+
+    public ListMenu(Context context) {
+        super(context);
+    }
+
+    public ListMenu(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public ListMenu(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public ListMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
 
     /*
      *
@@ -45,50 +61,8 @@ class ListMenu extends RelativeLayout {
      *
      */
 
-    public ListMenu(Context context) {
-        super(context);
-        init();
-    }
-
-    public ListMenu(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public ListMenu(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    /*
-     *
-     *
-     *
-     *
-     * Constructors
-     *
-     *
-     *
-     *
-     */
-
-    public ListMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
-    public void setItems(List<menuItem> items) {
-        this.items.clear();
-        this.items.addAll(items);
-        buildMenu();
-    }
-
-    public void setListener(DrawerCallbacks callbacks) {
-        this.listener = callbacks;
-    }
-
     public void setItemHighlightColor(int color) {
-        this.highlightColor = color;
+        super.setItemHighlightColor(color);
 
         // Update the color
         for (View v : highlighterViews.values())
@@ -96,7 +70,16 @@ class ListMenu extends RelativeLayout {
                 v.findViewById(R.id.item_highlight).setBackgroundTintList(ColorStateList.valueOf(highlightColor));
     }
 
-    private void init() {
+    /*
+     *
+     *
+     * Internal methods
+     *
+     *
+     *
+     */
+
+    void init() {
         inflate(getContext(), R.layout.menu_type_list, this);
         SV_menu = findViewById(R.id.menu_scrollView);
         LL_itemsContainer = findViewById(R.id.menu_itemsContainer);
@@ -174,22 +157,6 @@ class ListMenu extends RelativeLayout {
         }
 
         return anySelected;
-    }
-
-    private boolean hasSelectedSubItem(List<menuItem> items) {
-        boolean hasSelected = false;
-        for (menuItem item : items) {
-            hasSelected |= item.isSelected();
-            if (item.hasSubItems()) hasSelected |= hasSelectedSubItem(item.getSubItems());
-        }
-        return hasSelected;
-    }
-
-    private void setSelected(String id, List<menuItem> items) {
-        for (menuItem item : items) {
-            item.setSelected(item.getId().equals(id));
-            if (item.hasSubItems()) setSelected(id, item.getSubItems());
-        }
     }
 
     public void buildMenu() {

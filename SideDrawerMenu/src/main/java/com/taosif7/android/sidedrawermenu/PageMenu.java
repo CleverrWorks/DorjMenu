@@ -9,25 +9,18 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
 import com.taosif7.android.sidedrawermenu.helpers.HelperMethods;
 import com.taosif7.android.sidedrawermenu.models.menuItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
-class PageMenu extends RelativeLayout {
+class PageMenu extends DrawerMenuModule {
 
     // Constants
     final String TAG_HIGHLIGHTER = "HighlighterView";
-
-    // Data
-    List<menuItem> items = new ArrayList<>();
-    int highlightColor = -1;
 
     // View references
     ScrollView SV_menu;
@@ -35,8 +28,30 @@ class PageMenu extends RelativeLayout {
     LinearLayout LL_itemsContainer, LL_navItemsContainer;
     View topShadow, bottomShadow;
 
-    // Components
-    private DrawerCallbacks listener;
+    /*
+     *
+     *
+     * Constructors
+     *
+     *
+     *
+     */
+
+    public PageMenu(Context context) {
+        super(context);
+    }
+
+    public PageMenu(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public PageMenu(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public PageMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
 
     /*
      *
@@ -47,55 +62,12 @@ class PageMenu extends RelativeLayout {
      *
      */
 
-    public void setItems(List<menuItem> items) {
-        this.items.clear();
-        this.items.addAll(items);
-        buildMenu();
-    }
-
-    public void setListener(DrawerCallbacks callbacks) {
-        this.listener = callbacks;
-    }
-
     public void setItemHighlightColor(int color) {
-        this.highlightColor = color;
+        super.setItemHighlightColor(color);
 
         // Update the color of highlighter views
         if (highlightColor != -1) for (View hv : getAllHighlighterViews())
             hv.setBackgroundTintList(ColorStateList.valueOf(highlightColor));
-    }
-
-
-    /*
-     *
-     *
-     *
-     *
-     * Constructors
-     *
-     *
-     *
-     *
-     */
-
-    public PageMenu(Context context) {
-        super(context);
-        init();
-    }
-
-    public PageMenu(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public PageMenu(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    public PageMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
     }
 
     /*
@@ -110,7 +82,7 @@ class PageMenu extends RelativeLayout {
      *
      */
 
-    private void init() {
+    void init() {
         inflate(getContext(), R.layout.menu_type_page, this);
         SV_menu = findViewById(R.id.menu_scrollView);
         HSV_nav = findViewById(R.id.menu_nav);
@@ -174,22 +146,6 @@ class PageMenu extends RelativeLayout {
         menuView.findViewById(R.id.item_body).setLayoutParams(params);
 
         return menuView;
-    }
-
-    private boolean hasSelectedSubItem(List<menuItem> items) {
-        boolean hasSelected = false;
-        for (menuItem item : items) {
-            hasSelected |= item.isSelected();
-            if (item.hasSubItems()) hasSelected |= hasSelectedSubItem(item.getSubItems());
-        }
-        return hasSelected;
-    }
-
-    private void setSelected(String id, List<menuItem> items) {
-        for (menuItem item : items) {
-            item.setSelected(item.getId().equals(id));
-            if (item.hasSubItems()) setSelected(id, item.getSubItems());
-        }
     }
 
     public void buildMenu() {
