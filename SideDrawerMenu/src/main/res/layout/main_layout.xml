@@ -86,10 +86,18 @@
         </RelativeLayout>
 
         <com.taosif7.android.sidedrawermenu.ListMenu
-            android:id="@+id/menu"
+            android:id="@+id/menu_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/menu_header" />
+            android:layout_below="@id/menu_header"
+            android:visibility="gone" />
+
+        <com.taosif7.android.sidedrawermenu.PageMenu
+            android:id="@+id/menu_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/menu_header"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/menuEndBorder"

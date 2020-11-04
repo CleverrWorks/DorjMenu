@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
         menu = new SideDrawerMenu(this, this);
         menu.setItems(items);
+        menu.setMenuType(SideDrawerMenu.MenuType.MENU_SUBLIST);
         menu.attachToActivity(this, SideDrawerMenu.direction.LEFT);
 
         findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
     public boolean onDrawerMenuItemClick(menuItem menuItem) {
         if (menuItem.getLabel().equals("Travel")) return false;
         ((TextView) findViewById(R.id.selectedItemText)).setText(menuItem.getLabel() + " is Selected");
+
         menu.closeMenu();
 
         menuItem parent = menuItem.getParent();
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
                 case "Watches":
                     menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
                     break;
+                default:
+                    menu.setItemHighlightColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright));
             }
         }
 

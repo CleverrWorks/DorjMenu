@@ -22,15 +22,17 @@ import java.util.Map;
 
 class ListMenu extends RelativeLayout {
 
-    boolean menuLaidOut = false;
+
     // Data
     List<menuItem> items = new ArrayList<>();
     Map<String, View> highlighterViews = new HashMap<String, View>();
     int highlightColor = -1;
+
     // View references
     ScrollView SV_menu;
     LinearLayout LL_itemsContainer;
     View topShadow, bottomShadow;
+
     // Components
     private DrawerCallbacks listener;
 
@@ -203,7 +205,5 @@ class ListMenu extends RelativeLayout {
             findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menu.getScrollY() / 50f)));
             findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
         });
-
-        menuLaidOut = true;
     }
 }

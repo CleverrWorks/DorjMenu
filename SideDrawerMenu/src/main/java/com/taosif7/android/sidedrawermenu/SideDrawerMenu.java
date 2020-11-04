@@ -33,6 +33,11 @@ import java.util.List;
 
 public class SideDrawerMenu extends LinearLayout {
 
+    // constants
+    public enum direction {LEFT, RIGHT}
+
+    public enum MenuType {MENU_SUBLIST, MENU_PAGES}
+
     // Properties
     public int menu_width = 360;
     public FrameLayout user_content;
@@ -40,10 +45,12 @@ public class SideDrawerMenu extends LinearLayout {
     boolean menu_open = false;
     private int screen_width = 600;
     public direction menu_direction = direction.RIGHT;
+    public MenuType menuType = MenuType.MENU_PAGES;
 
     // Views
     public RelativeLayout menu;
     public ImageView IV_header_bg;
+
     // Menu Items Data
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
@@ -51,7 +58,8 @@ public class SideDrawerMenu extends LinearLayout {
 
     // Other
     DrawerCallbacks listener;
-    private ListMenu menuItemsList;
+    private ListMenu menuItems_list;
+    private PageMenu menuItems_pages;
 
     public SideDrawerMenu(Context context, DrawerCallbacks listener) {
         super(context);
@@ -83,10 +91,7 @@ public class SideDrawerMenu extends LinearLayout {
         ((ViewGroup) user_container.getChildAt(0)).setFitsSystemWindows(true);
 
         // Build menu
-        menuItemsList = findViewById(R.id.menu);
-        menuItemsList.setItems(items);
-        if (highlightColor != -1) menuItemsList.setItemHighlightColor(highlightColor);
-        if (listener != null) menuItemsList.setListener(listener);
+        setMenuType(this.menuType);
     }
 
     private void init() {
@@ -143,8 +148,6 @@ public class SideDrawerMenu extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    // Constants
-    public enum direction {LEFT, RIGHT}
 
     public void attachToActivity(Activity activity, direction direction) {
         bindedActivity = activity;
@@ -206,12 +209,42 @@ public class SideDrawerMenu extends LinearLayout {
     public void setItems(List<menuItem> items) {
         this.items.clear();
         this.items.addAll(items);
-        if (menuItemsList != null) menuItemsList.setItems(items);
+        if (menuType == MenuType.MENU_SUBLIST && menuItems_list != null)
+            menuItems_list.setItems(items);
+        if (menuType == MenuType.MENU_PAGES && menuItems_pages != null)
+            menuItems_pages.setItems(items);
     }
 
     public void setItemHighlightColor(int color) {
         this.highlightColor = color;
-        if (menuItemsList != null) menuItemsList.setItemHighlightColor(color);
+        if (menuType == MenuType.MENU_SUBLIST && menuItems_list != null)
+            menuItems_list.setItemHighlightColor(color);
+        if (menuType == MenuType.MENU_PAGES && menuItems_pages != null)
+            menuItems_pages.setItemHighlightColor(color);
+    }
+
+    public void setMenuType(MenuType type) {
+        this.menuType = type;
+
+        menuItems_list = findViewById(R.id.menu_list);
+        menuItems_pages = findViewById(R.id.menu_page);
+
+        if (menuItems_pages == null || menuItems_list == null) return;
+
+        menuItems_list.setVisibility(GONE);
+        menuItems_pages.setVisibility(GONE);
+
+        if (menuType == MenuType.MENU_SUBLIST) {
+            menuItems_list.setVisibility(VISIBLE);
+            menuItems_list.setItems(items);
+            if (highlightColor != -1) menuItems_list.setItemHighlightColor(highlightColor);
+            if (listener != null) menuItems_list.setListener(listener);
+        } else {
+            menuItems_pages.setVisibility(VISIBLE);
+            menuItems_pages.setItems(items);
+            if (highlightColor != -1) menuItems_pages.setItemHighlightColor(highlightColor);
+            if (listener != null) menuItems_pages.setListener(listener);
+        }
     }
 
     public void closeMenu() {
