@@ -3,7 +3,7 @@
     <color name="menu_bg">#FAFAFA</color>
     <color name="menu_header_top">#40ffffff</color>
     <color name="menu_bg_invert">#292929</color>
-    <color name="menu_outline">#999999</color>
+    <color name="menu_outline">#DDD</color>
     <color name="header_username">#000000</color>
     <color name="header_email">#303030</color>
     <color name="item_highlight">#B3E5FC</color>

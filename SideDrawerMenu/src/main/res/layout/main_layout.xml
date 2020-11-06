@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -70,10 +71,10 @@
                 android:background="@drawable/circle_simple"
                 android:backgroundTint="@color/menu_bg_invert"
                 android:gravity="center"
+                android:maxEms="3"
                 android:textAllCaps="true"
                 android:textColor="@color/menu_bg"
                 android:textSize="24sp"
-                android:maxEms="3"
                 android:textStyle="bold" />
 
             <TextView
@@ -105,6 +106,7 @@
             android:id="@+id/menu_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/persistentButton"
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
@@ -112,6 +114,7 @@
             android:id="@+id/menu_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/persistentButton"
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
@@ -120,6 +123,43 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/menu_outline" />
+
+        <RelativeLayout
+            android:id="@+id/persistentButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/menu_outline" />
+
+            <ImageView
+                android:id="@+id/persistentButtonIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_baseline_settings_24"
+                android:tint="@color/menu_bg_invert"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/persistentButtonLabel"
+                style="@style/menu_item_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/persistentButtonIcon"
+                android:gravity="center_vertical"
+                android:text="Settings" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

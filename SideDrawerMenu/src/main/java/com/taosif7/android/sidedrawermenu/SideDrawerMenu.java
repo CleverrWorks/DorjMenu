@@ -56,10 +56,10 @@ public class SideDrawerMenu extends LinearLayout {
     // Data
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
+    View.OnClickListener persistentButtonListener;
     int highlightColor = -1;
-    Drawable profileImage;
-    String displayName;
-    String email;
+    Drawable profileImage, persistentButtonIcon;
+    String displayName, email, persistentButtonLabel;
 
     // Other
     DrawerCallbacks listener;
@@ -96,6 +96,9 @@ public class SideDrawerMenu extends LinearLayout {
 
         // Set User details
         setUserDetails(profileImage, displayName, email);
+
+        // set persistent button props
+        setPersistentButton(persistentButtonIcon, persistentButtonLabel, persistentButtonListener);
 
         // Build menu
         setMenuType(this.menuType);
@@ -253,6 +256,27 @@ public class SideDrawerMenu extends LinearLayout {
             TV_profileImageInitials.setVisibility(INVISIBLE);
         }
 
+    }
+
+    public void setPersistentButton(@Nullable Drawable icon, @Nullable String label, View.OnClickListener onClick) {
+        this.persistentButtonIcon = icon;
+        this.persistentButtonLabel = label;
+        this.persistentButtonListener = onClick;
+
+        RelativeLayout buttonBody = findViewById(R.id.persistentButton);
+        TextView buttonLabel = findViewById(R.id.persistentButtonLabel);
+        ImageView buttonIcon = findViewById(R.id.persistentButtonIcon);
+
+        if (buttonBody != null) {
+            if (onClick == null) {
+                buttonBody.setVisibility(GONE);
+                return;
+            }
+
+            if (buttonLabel != null && label != null) buttonLabel.setText(label);
+            if (buttonIcon != null && icon != null) buttonIcon.setImageDrawable(icon);
+            buttonBody.setOnClickListener(onClick);
+        }
     }
 
     public void setItems(List<menuItem> items) {
