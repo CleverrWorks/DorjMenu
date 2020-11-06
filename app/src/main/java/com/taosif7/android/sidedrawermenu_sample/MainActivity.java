@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         menu = new SideDrawerMenu(this, this);
         menu.setItems(items);
         menu.setMenuType(SideDrawerMenu.MenuType.MENU_SUBLIST);
+        menu.setUserDetails(ContextCompat.getDrawable(this, R.drawable.jhon), "Jhon Cena", "YouCantSeeMe@wwe.com");
         menu.attachToActivity(this, SideDrawerMenu.direction.LEFT);
 
         findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {

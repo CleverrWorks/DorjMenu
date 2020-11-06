@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -17,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,10 +53,13 @@ public class SideDrawerMenu extends LinearLayout {
     public RelativeLayout menu;
     public ImageView IV_header_bg;
 
-    // Menu Items Data
+    // Data
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
     int highlightColor = -1;
+    Drawable profileImage;
+    String displayName;
+    String email;
 
     // Other
     DrawerCallbacks listener;
@@ -88,6 +93,9 @@ public class SideDrawerMenu extends LinearLayout {
         user_content.setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setFitsSystemWindows(true);
+
+        // Set User details
+        setUserDetails(profileImage, displayName, email);
 
         // Build menu
         setMenuType(this.menuType);
@@ -204,6 +212,48 @@ public class SideDrawerMenu extends LinearLayout {
      *
      *
      */
+
+    public void setUserDetails(@Nullable Drawable profileImage, @Nullable String displayName, @Nullable String email) {
+        TextView TV_displayName = ((TextView) findViewById(R.id.displayName));
+        TextView TV_email = ((TextView) findViewById(R.id.email));
+        TextView TV_profileImageInitials = ((TextView) findViewById(R.id.profileImageInitials));
+        ImageView IV_profile = ((ImageView) findViewById(R.id.profileImage));
+
+        // Store data
+        this.profileImage = profileImage;
+        this.displayName = displayName;
+        this.email = email;
+
+        // Return if views are not inflated yet
+        if (TV_displayName == null || TV_email == null || IV_profile == null || TV_profileImageInitials == null)
+            return;
+
+        if (displayName != null) TV_displayName.setText(displayName);
+        else TV_displayName.setVisibility(GONE);
+
+        if (email != null) TV_email.setText(email);
+        else TV_email.setVisibility(GONE);
+
+        if (profileImage == null && displayName != null) {
+            IV_profile.setVisibility(INVISIBLE);
+            TV_profileImageInitials.setVisibility(VISIBLE);
+            String[] nameSplit = displayName.split(" ");
+            StringBuilder initials = new StringBuilder();
+            for (String s : nameSplit) initials.append(s.charAt(0));
+            TV_profileImageInitials.setText(initials);
+        } else {
+            IV_profile.setImageDrawable(profileImage);
+            TV_profileImageInitials.setVisibility(INVISIBLE);
+        }
+
+        if (profileImage == null && displayName == null && email == null) {
+            IV_profile.setVisibility(INVISIBLE);
+            TV_displayName.setVisibility(INVISIBLE);
+            TV_email.setVisibility(INVISIBLE);
+            TV_profileImageInitials.setVisibility(INVISIBLE);
+        }
+
+    }
 
     public void setItems(List<menuItem> items) {
         this.items.clear();

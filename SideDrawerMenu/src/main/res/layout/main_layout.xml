@@ -61,7 +61,23 @@
                 android:src="@drawable/profile_placeholder" />
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/profileImageInitials"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:height="60dp"
+                android:background="@drawable/circle_simple"
+                android:backgroundTint="@color/menu_bg_invert"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/menu_bg"
+                android:textSize="24sp"
+                android:maxEms="3"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/displayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profileImage"
@@ -76,7 +92,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/username"
+                android:layout_below="@id/displayName"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="4dp"
                 android:text="Email@Arbitrary.com"
