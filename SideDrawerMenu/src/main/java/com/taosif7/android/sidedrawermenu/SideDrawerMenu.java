@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 
 import com.taosif7.android.sidedrawermenu.helpers.ContentDragTouchListener;
 import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
@@ -57,7 +59,7 @@ public class SideDrawerMenu extends LinearLayout {
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
     View.OnClickListener persistentButtonListener;
-    int highlightColor = -1;
+    int highlightColor = -1, menuAccentColor;
     Drawable profileImage, persistentButtonIcon;
     String displayName, email, persistentButtonLabel;
 
@@ -93,6 +95,11 @@ public class SideDrawerMenu extends LinearLayout {
         user_content.setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setOnTouchListener(contentDrag);
         ((ViewGroup) user_container.getChildAt(0)).setFitsSystemWindows(true);
+
+        // Initialise properties
+        menuAccentColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
+        highlightColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
+
 
         // Set User details
         setUserDetails(profileImage, displayName, email);
@@ -240,6 +247,7 @@ public class SideDrawerMenu extends LinearLayout {
         if (profileImage == null && displayName != null) {
             IV_profile.setVisibility(INVISIBLE);
             TV_profileImageInitials.setVisibility(VISIBLE);
+            TV_profileImageInitials.setBackgroundTintList(ColorStateList.valueOf(menuAccentColor));
             String[] nameSplit = displayName.split(" ");
             StringBuilder initials = new StringBuilder();
             for (String s : nameSplit) initials.append(s.charAt(0));
@@ -290,6 +298,15 @@ public class SideDrawerMenu extends LinearLayout {
         this.highlightColor = color;
         if (drawerMenuModule != null)
             drawerMenuModule.setItemHighlightColor(color);
+    }
+
+    public void setMenuAccentColor(int color) {
+        this.menuAccentColor = color;
+
+        // Set background tint of profileImage initials
+        TextView TV_profileImageInitials = ((TextView) findViewById(R.id.profileImageInitials));
+        if (TV_profileImageInitials != null)
+            TV_profileImageInitials.setBackgroundTintList(ColorStateList.valueOf(menuAccentColor));
     }
 
     public void setMenuType(MenuType type) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="menu_accent">#ffc947</color>
     <color name="menu_bg">#292929</color>
     <color name="menu_header_top">#80292929</color>
     <color name="menu_bg_invert">#FAFAFA</color>
