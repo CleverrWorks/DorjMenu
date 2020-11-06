@@ -75,4 +75,14 @@ public class menuItem {
     private void setParent(menuItem parentItem) {
         this.parent = parentItem;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        menuItem item = (menuItem) o;
+
+        return id.equals(item.id);
+    }
 }
