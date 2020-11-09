@@ -157,6 +157,12 @@ class PageMenu extends DrawerMenuModule {
             findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menu.getScrollY() / 50f)));
             findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
         });
+
+        SV_menu.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
+            int bottom = (SV_menu.getChildAt(SV_menu.getChildCount() - 1)).getHeight() - SV_menu.getHeight() - SV_menu.getScrollY();
+            findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menu.getScrollY() / 50f)));
+            findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
+        });
     }
 
     private void showMenuItems(List<menuItem> items) {

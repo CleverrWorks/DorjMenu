@@ -88,7 +88,7 @@ class ListMenu extends DrawerMenuModule {
         buildMenu();
     }
 
-    private View getMenuItemView(menuItem item, int level) {
+    private View getMenuItemView(menuItem item, int level, boolean lastElement) {
         LinearLayout menuView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.menu_item, null);
         ((TextView) menuView.findViewById(R.id.item_label)).setText(item.getLabel());
         ((ImageView) menuView.findViewById(R.id.item_icon)).setImageDrawable(item.getIcon());
@@ -97,8 +97,10 @@ class ListMenu extends DrawerMenuModule {
             menuView.findViewById(R.id.item_highlight).setBackgroundTintList(ColorStateList.valueOf(highlightColor));
 
         if (item.hasSubItems()) {
-            for (menuItem subItem : item.getSubItems()) {
-                LinearLayout subItemView = (LinearLayout) getMenuItemView(subItem, level + 1);
+            List<menuItem> subItems = item.getSubItems();
+            for (int i = 0, subItemsSize = subItems.size(); i < subItemsSize; i++) {
+                menuItem subItem = subItems.get(i);
+                LinearLayout subItemView = (LinearLayout) getMenuItemView(subItem, level + 1, i == (subItemsSize - 1));
                 subItemView.setVisibility(GONE);
                 menuView.addView(subItemView, menuView.getChildCount() - 1);
             }
@@ -115,7 +117,7 @@ class ListMenu extends DrawerMenuModule {
                     menuView.findViewById(R.id.item_arrow).setRotationX(180);
                     highlighterViews.get(item.getId()).setVisibility(INVISIBLE);
 
-                    menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(VISIBLE);
+                    menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(lastElement ? GONE : VISIBLE);
                 } else {
                     for (int i = 1; i < menuView.getChildCount(); i++)
                         menuView.getChildAt(i).setVisibility(GONE);
@@ -161,13 +163,19 @@ class ListMenu extends DrawerMenuModule {
 
     public void buildMenu() {
         LL_itemsContainer.removeAllViews();
-        for (menuItem item : items) {
-            View v = getMenuItemView(item, 1);
+        for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+            menuItem item = items.get(i);
+            View v = getMenuItemView(item, 1, i == itemsSize - 1);
             LL_itemsContainer.addView(v);
         }
 
         // Add shadow gradients for menu scrollview
         SV_menu.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            int bottom = (SV_menu.getChildAt(SV_menu.getChildCount() - 1)).getHeight() - SV_menu.getHeight() - SV_menu.getScrollY();
+            findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menu.getScrollY() / 50f)));
+            findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
+        });
+        SV_menu.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
             int bottom = (SV_menu.getChildAt(SV_menu.getChildCount() - 1)).getHeight() - SV_menu.getHeight() - SV_menu.getScrollY();
             findViewById(R.id.menu_shadow_top).setAlpha(Math.min(1, Math.abs(SV_menu.getScrollY() / 50f)));
             findViewById(R.id.menu_shadow_bottom).setAlpha(Math.min(1, Math.abs(bottom / 50f)));
