@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
             menu.closeMenu();
         });
         menu.setCTAButton("Buy Pro version", ContextCompat.getColor(this, android.R.color.holo_green_dark), view -> Toast.makeText(MainActivity.this, "Going into new activity", Toast.LENGTH_SHORT).show());
+        menu.setHeaderButton(getDrawable(R.drawable.ic_baseline_edit_24), view -> Toast.makeText(this, "Edit Profile", Toast.LENGTH_SHORT).show());
         menu.attachToActivity(this, SideDrawerMenu.direction.RIGHT);
         findViewById(R.id.toggle_btn).setOnClickListener(view -> menu.toggleMenu());
     }

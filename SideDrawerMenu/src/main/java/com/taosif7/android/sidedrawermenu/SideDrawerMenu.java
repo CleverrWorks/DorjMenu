@@ -62,9 +62,9 @@ public class SideDrawerMenu extends LinearLayout {
     // Data
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
-    View.OnClickListener persistentButtonListener, ctaButtonListener;
+    View.OnClickListener persistentButtonListener, ctaButtonListener, headerButtonListener;
     int highlightColor = -1, menuAccentColor = -1, ctaButtonColor = -1;
-    Drawable profileImage, persistentButtonIcon, headerBG;
+    Drawable profileImage, persistentButtonIcon, headerButtonIcon, headerBG;
     String displayName, email, persistentButtonLabel, ctaButtonLabel;
 
     // Other
@@ -117,6 +117,7 @@ public class SideDrawerMenu extends LinearLayout {
         // set persistent button & cta button props
         setPersistentButton(persistentButtonIcon, persistentButtonLabel, persistentButtonListener);
         setCTAButton(ctaButtonLabel, ctaButtonColor, ctaButtonListener);
+        setHeaderButton(headerButtonIcon, headerButtonListener);
 
         // Build menu
         setMenuType(this.menuType);
@@ -346,6 +347,22 @@ public class SideDrawerMenu extends LinearLayout {
         ctaButton.setTextColor(HelperMethods.isColorDark(ctaButtonColor) ? Color.WHITE : Color.BLACK);
         ctaButton.setOnClickListener(ctaButtonListener);
         ctaButton.setBackgroundTintList(ColorStateList.valueOf(ctaButtonColor));
+    }
+
+    public void setHeaderButton(Drawable icon, View.OnClickListener onClick) {
+        this.headerButtonIcon = icon;
+        this.headerButtonListener = onClick;
+
+        ImageView IV_headerBtn = findViewById(R.id.drawer_header_button);
+        if (IV_headerBtn == null) return;
+
+        if (icon == null || onClick == null) {
+            IV_headerBtn.setVisibility(GONE);
+            return;
+        }
+
+        IV_headerBtn.setImageDrawable(icon);
+        IV_headerBtn.setOnClickListener(onClick);
     }
 
     public void setItems(List<menuItem> items) {
