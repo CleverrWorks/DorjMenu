@@ -50,6 +50,7 @@ public class SideDrawerMenu extends LinearLayout {
     public FrameLayout user_content;
     boolean initialised = false;
     boolean menu_open = false;
+    boolean showHeaderShadow = true;
     private int screen_width = 600;
     public direction menu_direction = direction.RIGHT;
     public MenuType menuType = MenuType.MENU_PAGES;
@@ -63,7 +64,7 @@ public class SideDrawerMenu extends LinearLayout {
     Activity bindedActivity;
     View.OnClickListener persistentButtonListener, ctaButtonListener;
     int highlightColor = -1, menuAccentColor = -1, ctaButtonColor = -1;
-    Drawable profileImage, persistentButtonIcon;
+    Drawable profileImage, persistentButtonIcon, headerBG;
     String displayName, email, persistentButtonLabel, ctaButtonLabel;
 
     // Other
@@ -105,6 +106,10 @@ public class SideDrawerMenu extends LinearLayout {
         if (ctaButtonColor == -1)
             ctaButtonColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
 
+        // set header props
+        if (headerBG == null) headerBG = getResources().getDrawable(R.drawable.drawer_default_bg);
+        setHeaderBackground(headerBG);
+        showHeaderShadow(showHeaderShadow);
 
         // Set User details
         setUserDetails(profileImage, displayName, email, true);
@@ -291,7 +296,17 @@ public class SideDrawerMenu extends LinearLayout {
     }
 
     public void showHeaderShadow(boolean show) {
+        this.showHeaderShadow = show;
         findViewById(R.id.drawer_header_shadow).setVisibility(show ? VISIBLE : GONE);
+    }
+
+    public void setHeaderBackground(Drawable backgroundImage) {
+        ImageView headerBG = findViewById(R.id.drawer_header_bg);
+        if (backgroundImage != null) this.headerBG = backgroundImage;
+
+        if (headerBG == null) return;
+        if (backgroundImage != null) headerBG.setImageDrawable(this.headerBG);
+        else headerBG.setImageResource(R.drawable.drawer_default_bg);
     }
 
     public void setPersistentButton(@Nullable Drawable icon, @Nullable String label, View.OnClickListener onClick) {

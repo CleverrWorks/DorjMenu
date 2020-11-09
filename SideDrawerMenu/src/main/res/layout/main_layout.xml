@@ -119,12 +119,6 @@
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
-        <View
-            android:id="@+id/menuEndBorder"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/menu_outline" />
-
         <Button
             android:id="@+id/ctaButton"
             android:layout_width="match_parent"
@@ -178,6 +172,12 @@
                 android:text="Settings" />
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/menuEndBorder"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/menu_outline" />
 
     </RelativeLayout>
 

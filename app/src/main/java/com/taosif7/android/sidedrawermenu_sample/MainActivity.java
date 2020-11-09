@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         menu = new SideDrawerMenu(this, this);
         menu.setItems(items);
         menu.setMenuType(SideDrawerMenu.MenuType.MENU_SUBLIST);
-        menu.setUserDetails(null, "Jhon Cena", "YouCantSeeMe@wwe.com", true);
+        menu.setHeaderBackground(getResources().getDrawable(R.drawable.wwe));
+        menu.setUserDetails(getDrawable(R.drawable.jhon), "Jhon Cena", "YouCantSeeMe@wwe.com", true);
         menu.setPersistentButton(null, null, view -> {
             Toast.makeText(MainActivity.this, "Settings activity will open up!", Toast.LENGTH_SHORT).show();
             menu.closeMenu();
