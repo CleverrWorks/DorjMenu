@@ -107,7 +107,7 @@ public class SideDrawerMenu extends LinearLayout {
 
 
         // Set User details
-        setUserDetails(profileImage, displayName, email);
+        setUserDetails(profileImage, displayName, email, true);
 
         // set persistent button & cta button props
         setPersistentButton(persistentButtonIcon, persistentButtonLabel, persistentButtonListener);
@@ -229,7 +229,7 @@ public class SideDrawerMenu extends LinearLayout {
      *
      */
 
-    public void setUserDetails(@Nullable Drawable profileImage, @Nullable String displayName, @Nullable String email) {
+    public void setUserDetails(@Nullable Drawable profileImage, @Nullable String displayName, @Nullable String email, boolean showImagePlaceholder) throws AssertionError {
         TextView TV_displayName = ((TextView) findViewById(R.id.displayName));
         TextView TV_email = ((TextView) findViewById(R.id.email));
         TextView TV_profileImageInitials = ((TextView) findViewById(R.id.profileImageInitials));
@@ -243,33 +243,55 @@ public class SideDrawerMenu extends LinearLayout {
         // Return if views are not inflated yet
         if (TV_displayName == null || TV_email == null || IV_profile == null || TV_profileImageInitials == null)
             return;
-
-        if (displayName != null) TV_displayName.setText(displayName);
-        else TV_displayName.setVisibility(GONE);
-
-        if (email != null) TV_email.setText(email);
-        else TV_email.setVisibility(GONE);
-
-        if (profileImage == null && displayName != null) {
-            IV_profile.setVisibility(INVISIBLE);
+        else {
+            TV_displayName.setVisibility(VISIBLE);
+            TV_email.setVisibility(VISIBLE);
             TV_profileImageInitials.setVisibility(VISIBLE);
-            TV_profileImageInitials.setBackgroundTintList(ColorStateList.valueOf(menuAccentColor));
-            String[] nameSplit = displayName.split(" ");
-            StringBuilder initials = new StringBuilder();
-            for (String s : nameSplit) initials.append(s.charAt(0));
-            TV_profileImageInitials.setText(initials);
-        } else {
-            IV_profile.setImageDrawable(profileImage);
-            TV_profileImageInitials.setVisibility(INVISIBLE);
+            IV_profile.setVisibility(VISIBLE);
         }
 
-        if (profileImage == null && displayName == null && email == null) {
-            IV_profile.setVisibility(INVISIBLE);
+        if (displayName == null && email == null) {
             TV_displayName.setVisibility(INVISIBLE);
             TV_email.setVisibility(INVISIBLE);
             TV_profileImageInitials.setVisibility(INVISIBLE);
+            IV_profile.setVisibility(INVISIBLE);
+            showHeaderShadow(false);
+            return;
+        } else if (displayName == null) {
+            TV_displayName.setText(email);
+            TV_email.setVisibility(INVISIBLE);
+        } else if (email == null) {
+            TV_email.setVisibility(GONE);
+            TV_displayName.setText(displayName);
+        } else {
+            TV_displayName.setText(displayName);
+            TV_email.setText(email);
         }
 
+
+        if (profileImage == null) {
+            IV_profile.setVisibility(INVISIBLE);
+            if (showImagePlaceholder) {
+                TV_profileImageInitials.setBackgroundTintList(ColorStateList.valueOf(menuAccentColor));
+
+                StringBuilder initials = new StringBuilder();
+                if (displayName != null) {
+                    String[] nameSplit = displayName.split(" ");
+                    for (String s : nameSplit) initials.append(s.charAt(0));
+                } else {
+                    initials.append(email.substring(0, 2));
+                }
+                TV_profileImageInitials.setText(initials);
+            } else TV_profileImageInitials.setVisibility(GONE);
+        } else {
+            TV_profileImageInitials.setVisibility(INVISIBLE);
+            IV_profile.setImageDrawable(profileImage);
+        }
+
+    }
+
+    public void showHeaderShadow(boolean show) {
+        findViewById(R.id.drawer_header_shadow).setVisibility(show ? VISIBLE : GONE);
     }
 
     public void setPersistentButton(@Nullable Drawable icon, @Nullable String label, View.OnClickListener onClick) {
