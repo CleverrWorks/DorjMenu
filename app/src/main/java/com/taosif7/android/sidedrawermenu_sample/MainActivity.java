@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,20 +67,15 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
         menu = new SideDrawerMenu(this, this);
         menu.setItems(items);
-        menu.setMenuType(SideDrawerMenu.MenuType.MENU_PAGES);
+        menu.setMenuType(SideDrawerMenu.MenuType.MENU_SUBLIST);
         menu.setUserDetails(ContextCompat.getDrawable(this, R.drawable.jhon), "Jhon Cena", "YouCantSeeMe@wwe.com");
         menu.setPersistentButton(null, null, view -> {
             Toast.makeText(MainActivity.this, "Settings activity will open up!", Toast.LENGTH_SHORT).show();
             menu.closeMenu();
         });
+        menu.setCTAButton("Buy Pro version", ContextCompat.getColor(this, android.R.color.holo_green_dark), view -> Toast.makeText(MainActivity.this, "Going into new activity", Toast.LENGTH_SHORT).show());
         menu.attachToActivity(this, SideDrawerMenu.direction.RIGHT);
-
-        findViewById(R.id.toggle_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                menu.toggleMenu();
-            }
-        });
+        findViewById(R.id.toggle_btn).setOnClickListener(view -> menu.toggleMenu());
     }
 
     @Override

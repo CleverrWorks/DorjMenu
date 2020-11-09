@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ import androidx.core.content.ContextCompat;
 
 import com.taosif7.android.sidedrawermenu.helpers.ContentDragTouchListener;
 import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
+import com.taosif7.android.sidedrawermenu.helpers.HelperMethods;
 import com.taosif7.android.sidedrawermenu.helpers.MenuDragTouchListener;
 import com.taosif7.android.sidedrawermenu.models.menuItem;
 
@@ -58,10 +61,10 @@ public class SideDrawerMenu extends LinearLayout {
     // Data
     List<menuItem> items = new ArrayList<>();
     Activity bindedActivity;
-    View.OnClickListener persistentButtonListener;
-    int highlightColor = -1, menuAccentColor;
+    View.OnClickListener persistentButtonListener, ctaButtonListener;
+    int highlightColor = -1, menuAccentColor = -1, ctaButtonColor = -1;
     Drawable profileImage, persistentButtonIcon;
-    String displayName, email, persistentButtonLabel;
+    String displayName, email, persistentButtonLabel, ctaButtonLabel;
 
     // Other
     DrawerCallbacks listener;
@@ -99,13 +102,16 @@ public class SideDrawerMenu extends LinearLayout {
         // Initialise properties
         menuAccentColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
         highlightColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
+        if (ctaButtonColor == -1)
+            ctaButtonColor = ContextCompat.getColor(getContext(), R.color.menu_accent);
 
 
         // Set User details
         setUserDetails(profileImage, displayName, email);
 
-        // set persistent button props
+        // set persistent button & cta button props
         setPersistentButton(persistentButtonIcon, persistentButtonLabel, persistentButtonListener);
+        setCTAButton(ctaButtonLabel, ctaButtonColor, ctaButtonListener);
 
         // Build menu
         setMenuType(this.menuType);
@@ -285,6 +291,24 @@ public class SideDrawerMenu extends LinearLayout {
             if (buttonIcon != null && icon != null) buttonIcon.setImageDrawable(icon);
             buttonBody.setOnClickListener(onClick);
         }
+    }
+
+    public void setCTAButton(String label, @Nullable Integer buttonColor, @Nullable View.OnClickListener onClick) {
+        this.ctaButtonLabel = label;
+        if (buttonColor != null) this.ctaButtonColor = buttonColor;
+        this.ctaButtonListener = onClick;
+
+        Button ctaButton = findViewById(R.id.ctaButton);
+        if (ctaButton == null) return;
+        if (label == null || onClick == null) {
+            ctaButton.setVisibility(GONE);
+            return;
+        }
+
+        ctaButton.setText(ctaButtonLabel);
+        ctaButton.setTextColor(HelperMethods.isColorDark(ctaButtonColor) ? Color.WHITE : Color.BLACK);
+        ctaButton.setOnClickListener(ctaButtonListener);
+        ctaButton.setBackgroundTintList(ColorStateList.valueOf(ctaButtonColor));
     }
 
     public void setItems(List<menuItem> items) {

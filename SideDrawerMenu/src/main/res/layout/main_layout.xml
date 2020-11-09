@@ -106,7 +106,7 @@
             android:id="@+id/menu_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/persistentButton"
+            android:layout_above="@id/ctaButton"
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
@@ -114,7 +114,7 @@
             android:id="@+id/menu_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/persistentButton"
+            android:layout_above="@id/ctaButton"
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
@@ -124,14 +124,31 @@
             android:layout_height="match_parent"
             android:background="@color/menu_outline" />
 
+        <Button
+            android:id="@+id/ctaButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_above="@id/persistentButton"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/menu_accent"
+            android:text="Buy now"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
         <RelativeLayout
             android:id="@+id/persistentButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="?selectableItemBackground"
+            android:layout_marginTop="-5dp"
+            android:background="@color/menu_bg"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:foreground="?selectableItemBackground">
 
             <View
                 android:layout_width="match_parent"
