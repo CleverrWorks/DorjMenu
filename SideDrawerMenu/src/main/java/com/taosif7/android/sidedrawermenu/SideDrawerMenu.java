@@ -51,6 +51,7 @@ public class SideDrawerMenu extends LinearLayout {
     boolean initialised = false;
     boolean menu_open = false;
     boolean showHeaderShadow = true;
+    Boolean isRTL;
     private int screen_width = 600;
     public direction menu_direction = direction.RIGHT;
     public MenuType menuType = MenuType.MENU_PAGES;
@@ -135,6 +136,9 @@ public class SideDrawerMenu extends LinearLayout {
         IV_header_bg = findViewById(R.id.drawer_header_bg);
         View menuEndBorder = findViewById(R.id.menuEndBorder);
 
+        // Set RTL
+        forceRTLLayout(this.isRTL);
+
 
         // set properties
         CoordinatorLayout.LayoutParams params_menu = (CoordinatorLayout.LayoutParams) menu.getLayoutParams();
@@ -151,11 +155,11 @@ public class SideDrawerMenu extends LinearLayout {
         findViewById(R.id.profileImage).setClipToOutline(true);
 
         RelativeLayout.LayoutParams params_headerImage = (RelativeLayout.LayoutParams) IV_header_bg.getLayoutParams();
-        params_headerImage.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
+        params_headerImage.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_LEFT : RelativeLayout.ALIGN_PARENT_RIGHT);
         IV_header_bg.setLayoutParams(params_headerImage);
 
         RelativeLayout.LayoutParams params_border = (RelativeLayout.LayoutParams) menuEndBorder.getLayoutParams();
-        params_border.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END);
+        params_border.addRule((menu_direction == direction.RIGHT) ? RelativeLayout.ALIGN_PARENT_LEFT : RelativeLayout.ALIGN_PARENT_RIGHT);
         menuEndBorder.setLayoutParams(params_border);
 
         // Set the content to activity
@@ -399,6 +403,19 @@ public class SideDrawerMenu extends LinearLayout {
         if (highlightColor != -1) drawerMenuModule.setItemHighlightColor(highlightColor);
         if (listener != null) drawerMenuModule.setListener(listener);
 
+    }
+
+    public void forceRTLLayout(Boolean isRTL) {
+        this.isRTL = isRTL;
+
+        RelativeLayout menu = findViewById(R.id.menu_layout);
+        if (menu == null) return;
+
+        if (isRTL == null) {
+            findViewById(R.id.menu_layout).setLayoutDirection(LAYOUT_DIRECTION_LOCALE);
+        } else {
+            findViewById(R.id.menu_layout).setLayoutDirection(isRTL ? View.LAYOUT_DIRECTION_RTL : LAYOUT_DIRECTION_LTR);
+        }
     }
 
     public void closeMenu() {

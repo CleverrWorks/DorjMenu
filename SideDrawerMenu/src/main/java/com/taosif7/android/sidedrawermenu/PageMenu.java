@@ -3,7 +3,6 @@ package com.taosif7.android.sidedrawermenu;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -139,11 +138,6 @@ class PageMenu extends DrawerMenuModule {
                 }
             });
         }
-
-        // Set Item indent
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) menuView.findViewById(R.id.item_body).getLayoutParams();
-        params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-        menuView.findViewById(R.id.item_body).setLayoutParams(params);
 
         return menuView;
     }

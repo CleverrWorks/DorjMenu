@@ -25,12 +25,12 @@
         android:id="@+id/menu_layout"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
+        android:layout_gravity="right"
         android:background="@color/menu_bg"
         android:fitsSystemWindows="false"
         android:orientation="vertical"
         android:translationX="0dp"
-        app:layout_insetEdge="right">
+        app:layout_insetEdge="end">
 
         <RelativeLayout
             android:id="@+id/menu_header"
@@ -86,6 +86,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="Some Random Username"
+                android:textAlignment="viewStart"
                 android:textColor="@color/header_username"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -96,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/displayName"
                 android:layout_marginStart="20dp"
+                android:textAlignment="viewStart"
                 android:layout_marginTop="4dp"
                 android:text="Email@Arbitrary.com"
                 android:textColor="@color/header_email"
@@ -145,7 +147,6 @@
             android:layout_height="50dp"
             android:layout_alignWithParentIfMissing="true"
             android:layout_above="@id/persistentButton"
-            android:layout_alignParentEnd="true"
             android:layout_marginHorizontal="5dp"
             android:layout_marginBottom="5dp"
             android:backgroundTint="@color/menu_accent"
@@ -187,6 +188,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textAlignment="viewStart"
                 android:layout_toEndOf="@id/persistentButtonIcon"
                 android:gravity="center_vertical"
                 android:text="Settings" />

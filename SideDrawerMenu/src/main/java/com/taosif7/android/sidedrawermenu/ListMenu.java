@@ -165,7 +165,7 @@ class ListMenu extends DrawerMenuModule {
         LL_itemsContainer.removeAllViews();
         for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
             menuItem item = items.get(i);
-            View v = getMenuItemView(item, 1, i == itemsSize - 1);
+            View v = getMenuItemView(item, 0, i == itemsSize - 1);
             LL_itemsContainer.addView(v);
         }
 
