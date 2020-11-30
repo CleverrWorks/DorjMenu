@@ -109,6 +109,7 @@ class PageMenu extends DrawerMenuModule {
                 itemHighlighterView.setVisibility(VISIBLE);
 
             menuView.findViewById(R.id.item_arrow).setVisibility(VISIBLE);
+            menuView.findViewById(R.id.item_arrow).setRotation(270);
 
             menuView.setOnClickListener(view -> {
 

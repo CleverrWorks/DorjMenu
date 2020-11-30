@@ -106,7 +106,6 @@ class ListMenu extends DrawerMenuModule {
             }
 
             menuView.findViewById(R.id.item_arrow).setVisibility(VISIBLE);
-            menuView.findViewById(R.id.item_arrow).setRotation(90);
             menuView.setTag("collapsed");
 
             menuView.setOnClickListener(view -> {
@@ -115,7 +114,7 @@ class ListMenu extends DrawerMenuModule {
                         menuView.getChildAt(i).setVisibility(VISIBLE);
 
                     menuView.setTag("expanded");
-                    menuView.findViewById(R.id.item_arrow).setRotation(270);
+                    menuView.findViewById(R.id.item_arrow).setRotationX(180);
                     highlighterViews.get(item.getId()).setVisibility(INVISIBLE);
 
                     menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(lastElement ? GONE : VISIBLE);
@@ -124,7 +123,7 @@ class ListMenu extends DrawerMenuModule {
                         menuView.getChildAt(i).setVisibility(GONE);
 
                     menuView.setTag("collapsed");
-                    menuView.findViewById(R.id.item_arrow).setRotation(90);
+                    menuView.findViewById(R.id.item_arrow).setRotationX(0);
                     highlighterViews.get(item.getId()).setVisibility(hasSelectedSubItem(item.getSubItems()) ? VISIBLE : INVISIBLE);
 
                     menuView.getChildAt(menuView.getChildCount() - 1).setVisibility(GONE);
