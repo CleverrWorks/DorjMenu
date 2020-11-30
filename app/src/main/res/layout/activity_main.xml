@@ -7,23 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@android:color/holo_blue_dark" />
-
-        <View
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@android:color/holo_orange_dark" />
+        android:orientation="vertical"
+        android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/selectedItemText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:paddingVertical="20dp"
             android:text="No device is selected"
             android:textAlignment="center"
             android:textSize="18sp" />
@@ -33,23 +24,91 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
             android:text="Select a device" />
 
         <View
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:background="@android:color/holo_red_dark" />
 
-        <View
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@android:color/holo_green_dark" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
 
-        <View
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@android:color/holo_purple" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Menu Direction"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/menu_direction_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:entries="@array/menu_direction_options"
+                android:padding="0dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Menu Type"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/menu_type_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:entries="@array/menu_type_options"
+                android:padding="0dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Right to Left"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/rtl_switch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SideDrawerMenu</string>
+    <string-array name="menu_direction_options">
+        <item>Left</item>
+        <item>Right</item>
+    </string-array>
+    <string-array name="menu_type_options">
+        <item>Sub List</item>
+        <item>Pages</item>
+    </string-array>
 </resources>
