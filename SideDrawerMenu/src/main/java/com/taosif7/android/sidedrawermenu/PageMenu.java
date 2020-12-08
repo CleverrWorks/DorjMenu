@@ -2,6 +2,8 @@ package com.taosif7.android.sidedrawermenu;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,7 +169,7 @@ class PageMenu extends DrawerMenuModule {
         }
     }
 
-    private void setNavItems(menuItem item) {
+    private void setNavItems(menuItem item, boolean currentFocus) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.nav_item, null);
         ((TextView) itemView.findViewById(R.id.nav_item_label)).setText(item.getLabel());
         LL_navItemsContainer.addView(itemView, 0);
@@ -177,12 +179,17 @@ class PageMenu extends DrawerMenuModule {
             setNavItemClear(item);
         });
 
+        if (currentFocus) {
+            ((TextView) itemView.findViewById(R.id.nav_item_label)).setTypeface(((TextView) itemView.findViewById(R.id.nav_item_label)).getTypeface(), Typeface.BOLD);
+            ((TextView) itemView.findViewById(R.id.nav_item_label)).setPaintFlags(((TextView) itemView.findViewById(R.id.nav_item_label)).getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }
 
         if (item.getParent() != null) {
-            setNavItems(item.getParent());
+            setNavItems(item.getParent(), false);
         } else {
             View itemViewRoot = LayoutInflater.from(getContext()).inflate(R.layout.nav_item, null);
             ((TextView) itemViewRoot.findViewById(R.id.nav_item_label)).setText("Root");
+            ((ImageView) itemViewRoot.findViewById(R.id.nav_item_icon)).setImageResource(R.drawable.ic_vert_line);
             LL_navItemsContainer.addView(itemViewRoot, 0);
 
             itemViewRoot.setOnClickListener(view -> {
@@ -197,7 +204,7 @@ class PageMenu extends DrawerMenuModule {
 
     private void setNavItemClear(menuItem item) {
         LL_navItemsContainer.removeAllViews();
-        setNavItems(item);
+        setNavItems(item, true);
     }
 
     List<View> getAllHighlighterViews() {
