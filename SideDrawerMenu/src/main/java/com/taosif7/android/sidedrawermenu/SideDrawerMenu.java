@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -114,6 +115,9 @@ public class SideDrawerMenu extends LinearLayout {
 
         // Set User details
         setUserDetails(profileImage, displayName, email, true);
+
+        // Set bottom navigation bar spacer
+        findViewById(R.id.bottom_spacer).getLayoutParams().height = getNavigationBarHeight();
 
         // set persistent button & cta button props
         setPersistentButton(persistentButtonIcon, persistentButtonLabel, persistentButtonListener);
@@ -463,5 +467,14 @@ public class SideDrawerMenu extends LinearLayout {
     public void toggleMenu() {
         if (menu_open) closeMenu();
         else openMenu();
+    }
+
+    public int getNavigationBarHeight() {
+        boolean hasMenuKey = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0 && !hasMenuKey) {
+            return getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 }

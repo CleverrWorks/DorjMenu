@@ -97,9 +97,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/displayName"
                 android:layout_marginStart="20dp"
-                android:textAlignment="viewStart"
                 android:layout_marginTop="4dp"
                 android:text="Email@Arbitrary.com"
+                android:textAlignment="viewStart"
                 android:textColor="@color/header_email"
                 android:textSize="12sp" />
 
@@ -159,9 +159,10 @@
             android:id="@+id/persistentButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
             android:layout_marginTop="-5dp"
             android:background="@color/menu_bg"
+            android:layout_above="@id/bottom_spacer"
+            android:paddingBottom="5dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackground">
@@ -189,12 +190,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:textAlignment="viewStart"
                 android:layout_toEndOf="@id/persistentButtonIcon"
                 android:gravity="center_vertical"
-                android:text="Settings" />
+                android:paddingTop="5dp"
+                android:text="Settings"
+                android:textAlignment="viewStart" />
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/bottom_spacer"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
         <View
             android:id="@+id/menuEndBorder"
