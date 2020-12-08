@@ -56,20 +56,21 @@ public class ContentDragTouchListener implements View.OnTouchListener {
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             start_x = 0;
 
-            if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
-                if (drawer.menu.getTranslationX() != menu_close_value || drawer.menu.getTranslationX() != menu_open_value) {
+            if (drawer.menu.getTranslationX() == menu_open_value) {
+                drawer.closeMenu();
+            } else if (drawer.menu.getTranslationX() != menu_close_value || drawer.menu.getTranslationX() != menu_open_value) {
+
+                if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
                     if (drawer.menu.getTranslationX() >= (menu_close_value * 0.5))
                         drawer.closeMenu();
                     else drawer.openMenu();
-                } else view.performClick();
-
-            } else {
-                if (drawer.menu.getTranslationX() != menu_close_value || drawer.menu.getTranslationX() != menu_open_value) {
+                } else {
                     if (drawer.menu.getTranslationX() <= (menu_close_value * 0.5))
                         drawer.closeMenu();
                     else drawer.openMenu();
-                } else view.performClick();
-            }
+                }
+
+            } else view.performClick();
 
             return false;
         } else {
