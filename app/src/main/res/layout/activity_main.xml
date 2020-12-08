@@ -110,5 +110,29 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Glide Duration"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/glide_duration"
+                android:layout_width="0dp"
+                android:hint="(400) in Millis"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

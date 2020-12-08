@@ -3,10 +3,13 @@ package com.taosif7.android.sidedrawermenu_sample;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,11 +36,13 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
     boolean ltr = false;
     int menu_direction = 1;
     int menu_type = 0;
+    long glide_duration = 400;
 
     // Constants
     final String PROP_LTR = "left_to_right";
     final String PROP_DIRECTION = "direction";
     final String PROP_MENUTYPE = "menu_type";
+    final String PROP_GLIDE_DUR = "glide_duration";
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         ((SwitchCompat) findViewById(R.id.rtl_switch)).setChecked(ltr);
         ((Spinner) findViewById(R.id.menu_direction_spinner)).setSelection(menu_direction);
         ((Spinner) findViewById(R.id.menu_type_spinner)).setSelection(menu_type);
+        ((EditText) findViewById(R.id.glide_duration)).setText(String.valueOf(glide_duration));
 
         // Set listeners for controls
 
@@ -105,6 +111,29 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        ((EditText) findViewById(R.id.glide_duration)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                long dur;
+                try {
+                    dur = Long.parseLong(editable.toString());
+                } catch (Exception e) {
+                    dur = 0;
+                }
+                drawerMenu.setGlideDuration(dur);
             }
         });
     }
