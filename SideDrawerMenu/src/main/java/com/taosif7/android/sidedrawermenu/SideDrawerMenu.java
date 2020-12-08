@@ -1,5 +1,7 @@
 package com.taosif7.android.sidedrawermenu;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -233,6 +236,17 @@ public class SideDrawerMenu extends LinearLayout {
 
             }
         });
+
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && menu_open) {
+            closeMenu();
+            return true;
+        } else return false;
     }
 
     /*
@@ -429,6 +443,13 @@ public class SideDrawerMenu extends LinearLayout {
         animation.setDuration(300);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
+        animation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                menu_open = false;
+                super.onAnimationEnd(animation);
+            }
+        });
 
         // Animate drawer Image bg
         ValueAnimator anim = ValueAnimator.ofInt(IV_header_bg.getMeasuredWidth(), 0);
@@ -445,11 +466,22 @@ public class SideDrawerMenu extends LinearLayout {
 
     public void openMenu() {
 
+        // Get focus so that we can get key-press
+        requestFocus();
+
         // Animate menu X coordinate
         ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", 0f);
         animation.setDuration(300);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
+        animation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                menu_open = true;
+                requestFocus();
+                super.onAnimationEnd(animation);
+            }
+        });
 
         // Animate drawer Image bg
         ValueAnimator anim = ValueAnimator.ofInt(IV_header_bg.getMeasuredWidth(), menu_width);
