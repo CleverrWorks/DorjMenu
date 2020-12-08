@@ -57,6 +57,7 @@ public class SideDrawerMenu extends LinearLayout {
     boolean showHeaderShadow = true;
     Boolean isRTL;
     private int screen_width = 600;
+    long anim_duration = 400;
     public direction menu_direction = direction.RIGHT;
     public MenuType menuType = MenuType.MENU_PAGES;
 
@@ -423,6 +424,10 @@ public class SideDrawerMenu extends LinearLayout {
 
     }
 
+    public void setGlideDuration(long duration) {
+        this.anim_duration = duration;
+    }
+
     public void forceRTLLayout(Boolean isRTL) {
         this.isRTL = isRTL;
 
@@ -440,7 +445,7 @@ public class SideDrawerMenu extends LinearLayout {
 
         // Animate menu X coordinate
         ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", (menu_direction == direction.RIGHT) ? menu_width : -menu_width);
-        animation.setDuration(300);
+        animation.setDuration(anim_duration);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
         animation.addListener(new AnimatorListenerAdapter() {
@@ -460,7 +465,7 @@ public class SideDrawerMenu extends LinearLayout {
             IV_header_bg.setLayoutParams(drawerImageParams);
         });
         anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(400);
+        anim.setDuration(anim_duration + 100); // close 100ms slower than menu closes
         anim.start();
     }
 
@@ -471,7 +476,7 @@ public class SideDrawerMenu extends LinearLayout {
 
         // Animate menu X coordinate
         ObjectAnimator animation = ObjectAnimator.ofFloat(menu, "translationX", 0f);
-        animation.setDuration(300);
+        animation.setDuration(anim_duration);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
         animation.addListener(new AnimatorListenerAdapter() {
@@ -492,7 +497,7 @@ public class SideDrawerMenu extends LinearLayout {
             IV_header_bg.setLayoutParams(drawerImageParams);
         });
         anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(200);
+        anim.setDuration(anim_duration - 100); // open 100ms faster than menu opens
         anim.start();
     }
 
