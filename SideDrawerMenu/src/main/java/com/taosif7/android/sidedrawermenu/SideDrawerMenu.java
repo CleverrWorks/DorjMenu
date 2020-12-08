@@ -252,6 +252,15 @@ public class SideDrawerMenu extends LinearLayout {
         } else return false;
     }
 
+    int getNavigationBarHeight() {
+        boolean hasMenuKey = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0 && !hasMenuKey) {
+            return getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
+
     /*
      *
      *
@@ -260,6 +269,18 @@ public class SideDrawerMenu extends LinearLayout {
      *
      */
 
+    /**
+     * Method to set User info in the header
+     * <br>
+     * <br>
+     * If this method is not called, The header will only contain Header Image
+     * with background with no shade
+     *
+     * @param profileImage         Drawable Image that will be shown as profile pic (can be null)
+     * @param displayName          Display name of the user (can be null)
+     * @param email                Email of the user (can be null)
+     * @param showImagePlaceholder If this is set to true, and profileImage is null, there will be text placeholder
+     */
     public void setUserDetails(@Nullable Drawable profileImage, @Nullable String displayName, @Nullable String email, boolean showImagePlaceholder) throws AssertionError {
         TextView TV_displayName = ((TextView) findViewById(R.id.displayName));
         TextView TV_email = ((TextView) findViewById(R.id.email));
@@ -321,11 +342,22 @@ public class SideDrawerMenu extends LinearLayout {
 
     }
 
+    /**
+     * This method forces to show/hide the shadow in header background image
+     *
+     * @param show provide true to show
+     */
     public void showHeaderShadow(boolean show) {
         this.showHeaderShadow = show;
         findViewById(R.id.drawer_header_shadow).setVisibility(show ? VISIBLE : GONE);
     }
 
+    /**
+     * Method to set Header background Image
+     * TIP: use horizontal image for better parallax while gliding
+     *
+     * @param backgroundImage Drawable Image to set
+     */
     public void setHeaderBackground(Drawable backgroundImage) {
         ImageView headerBG = findViewById(R.id.drawer_header_bg);
         if (backgroundImage != null) this.headerBG = backgroundImage;
@@ -335,6 +367,13 @@ public class SideDrawerMenu extends LinearLayout {
         else headerBG.setImageResource(R.drawable.drawer_default_bg);
     }
 
+    /**
+     * Method to set the button that will be permanently visible at the bottom of menu
+     *
+     * @param icon    Drawable icon for the button (can be null)
+     * @param label   Label for the button
+     * @param onClick action to perform on click
+     */
     public void setPersistentButton(@Nullable Drawable icon, @Nullable String label, View.OnClickListener onClick) {
         this.persistentButtonIcon = icon;
         this.persistentButtonLabel = label;
@@ -356,6 +395,13 @@ public class SideDrawerMenu extends LinearLayout {
         }
     }
 
+    /**
+     * method to set CTA button that will be visible above persistent Button (or at bottom of drawer if persistent button not provided)
+     *
+     * @param label       Label for the button
+     * @param buttonColor int resolved Color of the button background
+     * @param onClick     listener for click action
+     */
     public void setCTAButton(String label, @Nullable Integer buttonColor, @Nullable View.OnClickListener onClick) {
         this.ctaButtonLabel = label;
         if (buttonColor != null) this.ctaButtonColor = buttonColor;
@@ -374,6 +420,12 @@ public class SideDrawerMenu extends LinearLayout {
         ctaButton.setBackgroundTintList(ColorStateList.valueOf(ctaButtonColor));
     }
 
+    /**
+     * Method to set A small button that'll be present in header, to the opposite side of profile picture
+     *
+     * @param icon    Drawable Icon of button
+     * @param onClick Listener for click action
+     */
     public void setHeaderButton(Drawable icon, View.OnClickListener onClick) {
         this.headerButtonIcon = icon;
         this.headerButtonListener = onClick;
@@ -390,6 +442,15 @@ public class SideDrawerMenu extends LinearLayout {
         IV_headerBtn.setOnClickListener(onClick);
     }
 
+    /**
+     * Method to set list of menu items
+     * <br>
+     * <br>
+     * A {@link menuItem} is a recursive data type, that means you can add child to it,
+     * and hence construct a levelled/paged menu depending on MenuType ({@link MenuType})
+     *
+     * @param items List of {@link menuItem}
+     */
     public void setItems(List<menuItem> items) {
         this.items.clear();
         this.items.addAll(items);
@@ -397,12 +458,31 @@ public class SideDrawerMenu extends LinearLayout {
             drawerMenuModule.setItems(items);
     }
 
+    /**
+     * Method to set Selected Item highlight colour
+     * <br>
+     * This method can be called anytime, on each item selection
+     * so that every item can have its own color for highlight
+     *
+     * @param color resolved int color
+     */
     public void setItemHighlightColor(int color) {
         this.highlightColor = color;
         if (drawerMenuModule != null)
             drawerMenuModule.setItemHighlightColor(color);
     }
 
+    /**
+     * Method to set drawer accent color
+     * <br>
+     * This color is applied to various things like
+     * <br>
+     * default CTA button color
+     * <br>
+     * default item highlight color
+     *
+     * @param color int resolved color
+     */
     public void setMenuAccentColor(int color) {
         this.menuAccentColor = color;
 
@@ -412,6 +492,14 @@ public class SideDrawerMenu extends LinearLayout {
             TV_profileImageInitials.setBackgroundTintList(ColorStateList.valueOf(menuAccentColor));
     }
 
+    /**
+     * Method to set menu type
+     * <p>
+     * <p>
+     * This method must be called before attachToRoot method
+     *
+     * @param type one of values from {@link MenuType}
+     */
     public void setMenuType(MenuType type) {
         this.menuType = type;
 
@@ -426,14 +514,29 @@ public class SideDrawerMenu extends LinearLayout {
 
     }
 
+    /**
+     * Method to set duration of menu opening/closing animation
+     *
+     * @param duration animation duration in long
+     */
     public void setGlideDuration(long duration) {
         this.anim_duration = duration;
     }
 
+    /**
+     * Method to set Amount of screen that'll be covered by menu
+     *
+     * @param factor a value between 0.6 to 1.0
+     */
     public void setMenuOpenFactor(@FloatRange(from = 0.6, to = 1.0) double factor) {
         this.menu_open_factor = factor;
     }
 
+    /**
+     * Method to force whole the drawer contents to layout in Right to Left direction
+     *
+     * @param isRTL if true, drawer contents will be laid out in right to left mode, If null, it'll inherit
+     */
     public void forceRTLLayout(Boolean isRTL) {
         this.isRTL = isRTL;
 
@@ -447,6 +550,9 @@ public class SideDrawerMenu extends LinearLayout {
         }
     }
 
+    /**
+     * Method to close menu
+     */
     public void closeMenu() {
 
         // Animate menu X coordinate
@@ -475,6 +581,9 @@ public class SideDrawerMenu extends LinearLayout {
         anim.start();
     }
 
+    /**
+     * Method to open menu
+     */
     public void openMenu() {
 
         // Get focus so that we can get key-press
@@ -507,17 +616,11 @@ public class SideDrawerMenu extends LinearLayout {
         anim.start();
     }
 
+    /**
+     * Method to toggle menu
+     */
     public void toggleMenu() {
         if (menu_open) closeMenu();
         else openMenu();
-    }
-
-    public int getNavigationBarHeight() {
-        boolean hasMenuKey = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
-        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0 && !hasMenuKey) {
-            return getResources().getDimensionPixelSize(resourceId);
-        }
-        return 0;
     }
 }
