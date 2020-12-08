@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -58,6 +59,7 @@ public class SideDrawerMenu extends LinearLayout {
     Boolean isRTL;
     private int screen_width = 600;
     long anim_duration = 400;
+    double menu_open_factor = 0.7;
     public direction menu_direction = direction.RIGHT;
     public MenuType menuType = MenuType.MENU_PAGES;
 
@@ -198,7 +200,7 @@ public class SideDrawerMenu extends LinearLayout {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screen_width = displayMetrics.widthPixels;
-        menu_width = (int) (screen_width * 0.7);
+        menu_width = (int) (screen_width * menu_open_factor);
 
         // Attach init method to activity's onResume
         activity.getApplication().registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
@@ -426,6 +428,10 @@ public class SideDrawerMenu extends LinearLayout {
 
     public void setGlideDuration(long duration) {
         this.anim_duration = duration;
+    }
+
+    public void setMenuOpenFactor(@FloatRange(from = 0.6, to = 1.0) double factor) {
+        this.menu_open_factor = factor;
     }
 
     public void forceRTLLayout(Boolean isRTL) {
