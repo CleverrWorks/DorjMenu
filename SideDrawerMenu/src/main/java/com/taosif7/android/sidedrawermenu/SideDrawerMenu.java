@@ -503,7 +503,7 @@ public class SideDrawerMenu extends LinearLayout {
             IV_header_bg.setLayoutParams(drawerImageParams);
         });
         anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(anim_duration - 100); // open 100ms faster than menu opens
+        anim.setDuration(Math.max(anim_duration - 100, 0)); // open 100ms faster than menu opens
         anim.start();
     }
 
