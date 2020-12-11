@@ -1,4 +1,4 @@
-package com.taosif7.android.sidedrawermenu_sample;
+package saleh.taosif7.dorjmenu_sample;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -20,16 +20,17 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
-import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
-import com.taosif7.android.sidedrawermenu.models.menuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import saleh.taosif7.dorjmenu.DorjMenu;
+import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import saleh.taosif7.dorjmenu.models.menuItem;
+
 public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
-    private SideDrawerMenu drawerMenu;
+    private DorjMenu drawerMenu;
     private SharedPreferences sharedPreferences;
 
     // properties
@@ -51,15 +52,15 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         setContentView(R.layout.activity_main);
 
         // Get properties from shared Prefs
-        sharedPreferences = getSharedPreferences("drawer_lib", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("dorjMenu_lib", MODE_PRIVATE);
         ltr = sharedPreferences.getBoolean(PROP_LTR, ltr);
         menu_direction = sharedPreferences.getInt(PROP_DIRECTION, menu_direction);
         menu_type = sharedPreferences.getInt(PROP_MENUTYPE, menu_type);
 
         // Set Menu properties
-        drawerMenu = new SideDrawerMenu(this, this);
+        drawerMenu = new DorjMenu(this, this);
         drawerMenu.setItems(getMenuItems());
-        drawerMenu.setMenuType((menu_type == 0) ? SideDrawerMenu.MenuType.MENU_SUBLIST : SideDrawerMenu.MenuType.MENU_PAGES);
+        drawerMenu.setMenuType((menu_type == 0) ? DorjMenu.MenuType.MENU_SUBLIST : DorjMenu.MenuType.MENU_PAGES);
         drawerMenu.setHeaderBackground(getResources().getDrawable(R.drawable.drawer_bg));
         drawerMenu.setUserDetails(getDrawable(R.drawable.profile_pic), "Marques Brownlee", "business@MKBHD.com", true);
         drawerMenu.setPersistentButton(null, null, view -> {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
         drawerMenu.setCTAButton("Buy Pro version", ContextCompat.getColor(this, android.R.color.holo_green_dark), view -> Snackbar.make(getWindow().getDecorView(), "you can set custom Text and click listener to this button. you can even hide it.", Snackbar.LENGTH_SHORT).show());
         drawerMenu.setHeaderButton(getDrawable(R.drawable.ic_baseline_edit_24), view -> Snackbar.make(getWindow().getDecorView(), "You can set and Icon and action to this button. you can even hide it.", Snackbar.LENGTH_SHORT).show());
         drawerMenu.forceRTLLayout(ltr);
-        drawerMenu.attachToActivity(this, (menu_direction == 0) ? SideDrawerMenu.direction.LEFT : SideDrawerMenu.direction.RIGHT);
+        drawerMenu.attachToActivity(this, (menu_direction == 0) ? DorjMenu.direction.LEFT : DorjMenu.direction.RIGHT);
 
         // Set control properties
         ((SwitchCompat) findViewById(R.id.rtl_switch)).setChecked(ltr);

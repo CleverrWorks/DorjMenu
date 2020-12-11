@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SideDrawerMenu</string>
+    <string name="app_name">DorjMenu Sample</string>
     <string-array name="menu_direction_options">
         <item>Left</item>
         <item>Right</item>

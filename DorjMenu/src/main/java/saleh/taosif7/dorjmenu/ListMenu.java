@@ -1,4 +1,4 @@
-package com.taosif7.android.sidedrawermenu;
+package saleh.taosif7.dorjmenu;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -11,13 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.taosif7.android.sidedrawermenu.models.menuItem;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class ListMenu extends DrawerMenuModule {
+import saleh.taosif7.dorjmenu.models.menuItem;
+
+class ListMenu extends saleh.taosif7.dorjmenu.DorjMenuModule {
 
     // Data
     Map<String, View> highlighterViews = new HashMap<String, View>();

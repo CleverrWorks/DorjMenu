@@ -125,7 +125,7 @@
 
         </RelativeLayout>
 
-        <com.taosif7.android.sidedrawermenu.ListMenu
+        <saleh.taosif7.dorjmenu.ListMenu
             android:id="@+id/menu_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
             android:layout_below="@id/menu_header"
             android:visibility="gone" />
 
-        <com.taosif7.android.sidedrawermenu.PageMenu
+        <saleh.taosif7.dorjmenu.PageMenu
             android:id="@+id/menu_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

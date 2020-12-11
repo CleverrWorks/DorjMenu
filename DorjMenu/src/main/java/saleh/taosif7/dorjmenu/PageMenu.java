@@ -1,4 +1,4 @@
-package com.taosif7.android.sidedrawermenu;
+package saleh.taosif7.dorjmenu;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -13,12 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.taosif7.android.sidedrawermenu.helpers.HelperMethods;
-import com.taosif7.android.sidedrawermenu.models.menuItem;
-
 import java.util.List;
 
-class PageMenu extends DrawerMenuModule {
+import saleh.taosif7.dorjmenu.helpers.HelperMethods;
+import saleh.taosif7.dorjmenu.models.menuItem;
+
+class PageMenu extends DorjMenuModule {
 
     // Constants
     final String TAG_HIGHLIGHTER = "HighlighterView";

@@ -1,11 +1,12 @@
-package com.taosif7.android.sidedrawermenu.helpers;
+package saleh.taosif7.dorjmenu.helpers;
 
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.taosif7.android.sidedrawermenu.SideDrawerMenu;
+import saleh.taosif7.dorjmenu.DorjMenu;
+
 
 public class ContentDragTouchListener implements View.OnTouchListener {
 
@@ -13,13 +14,13 @@ public class ContentDragTouchListener implements View.OnTouchListener {
 
     int menu_open_value, menu_close_value;
     Context context;
-    SideDrawerMenu drawer;
+    DorjMenu drawer;
 
-    public ContentDragTouchListener(SideDrawerMenu drawer) {
+    public ContentDragTouchListener(DorjMenu drawer) {
         this.context = drawer.getContext();
         this.drawer = drawer;
         menu_open_value = 0;
-        menu_close_value = (drawer.menu_direction == SideDrawerMenu.direction.RIGHT ? drawer.menu_width : -drawer.menu_width);
+        menu_close_value = (drawer.menu_direction == DorjMenu.direction.RIGHT ? drawer.menu_width : -drawer.menu_width);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ContentDragTouchListener implements View.OnTouchListener {
 
                 ViewGroup.LayoutParams drawerImageParams = drawer.IV_header_bg.getLayoutParams();
 
-                if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
+                if (drawer.menu_direction == DorjMenu.direction.RIGHT) {
                     if (drawer.menu.getTranslationX() + displacement_x + drawer.menu_width >= menu_open_value) {
                         drawer.menu.setTranslationX(displacement_x + drawer.menu_width);
                         drawerImageParams.width = (int) (drawer.menu_width - drawer.menu.getTranslationX() + 2);
@@ -60,7 +61,7 @@ public class ContentDragTouchListener implements View.OnTouchListener {
                 drawer.closeMenu();
             } else if (drawer.menu.getTranslationX() != menu_close_value || drawer.menu.getTranslationX() != menu_open_value) {
 
-                if (drawer.menu_direction == SideDrawerMenu.direction.RIGHT) {
+                if (drawer.menu_direction == DorjMenu.direction.RIGHT) {
                     if (drawer.menu.getTranslationX() >= (menu_close_value * 0.5))
                         drawer.closeMenu();
                     else drawer.openMenu();

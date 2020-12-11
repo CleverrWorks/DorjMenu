@@ -1,37 +1,37 @@
-package com.taosif7.android.sidedrawermenu;
+package saleh.taosif7.dorjmenu;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
-import com.taosif7.android.sidedrawermenu.models.menuItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DrawerMenuModule extends RelativeLayout {
+import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import saleh.taosif7.dorjmenu.models.menuItem;
+
+public abstract class DorjMenuModule extends RelativeLayout {
 
     List<menuItem> items = new ArrayList<>();
     DrawerCallbacks listener;
     int highlightColor = -1;
 
-    public DrawerMenuModule(Context context) {
+    public DorjMenuModule(Context context) {
         super(context);
         init();
     }
 
-    public DrawerMenuModule(Context context, AttributeSet attrs) {
+    public DorjMenuModule(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public DrawerMenuModule(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DorjMenuModule(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public DrawerMenuModule(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DorjMenuModule(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

@@ -1,4 +1,4 @@
-package com.taosif7.android.sidedrawermenu;
+package saleh.taosif7.dorjmenu;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,16 +34,16 @@ import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
-import com.taosif7.android.sidedrawermenu.helpers.ContentDragTouchListener;
-import com.taosif7.android.sidedrawermenu.helpers.DrawerCallbacks;
-import com.taosif7.android.sidedrawermenu.helpers.HelperMethods;
-import com.taosif7.android.sidedrawermenu.helpers.MenuDragTouchListener;
-import com.taosif7.android.sidedrawermenu.models.menuItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class SideDrawerMenu extends LinearLayout {
+import saleh.taosif7.dorjmenu.helpers.ContentDragTouchListener;
+import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import saleh.taosif7.dorjmenu.helpers.HelperMethods;
+import saleh.taosif7.dorjmenu.helpers.MenuDragTouchListener;
+import saleh.taosif7.dorjmenu.models.menuItem;
+
+public class DorjMenu extends LinearLayout {
 
     // constants
     public enum direction {LEFT, RIGHT}
@@ -77,9 +77,9 @@ public class SideDrawerMenu extends LinearLayout {
 
     // Other
     DrawerCallbacks listener;
-    DrawerMenuModule drawerMenuModule;
+    DorjMenuModule dorjMenuModule;
 
-    public SideDrawerMenu(Context context, DrawerCallbacks listener) {
+    public DorjMenu(Context context, DrawerCallbacks listener) {
         super(context);
         this.listener = listener;
     }
@@ -178,16 +178,16 @@ public class SideDrawerMenu extends LinearLayout {
         initialised = true;
     }
 
-    public SideDrawerMenu(Context context, AttributeSet attrs) {
+    public DorjMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SideDrawerMenu(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DorjMenu(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SideDrawerMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DorjMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -454,8 +454,8 @@ public class SideDrawerMenu extends LinearLayout {
     public void setItems(List<menuItem> items) {
         this.items.clear();
         this.items.addAll(items);
-        if (drawerMenuModule != null)
-            drawerMenuModule.setItems(items);
+        if (dorjMenuModule != null)
+            dorjMenuModule.setItems(items);
     }
 
     /**
@@ -468,8 +468,8 @@ public class SideDrawerMenu extends LinearLayout {
      */
     public void setItemHighlightColor(int color) {
         this.highlightColor = color;
-        if (drawerMenuModule != null)
-            drawerMenuModule.setItemHighlightColor(color);
+        if (dorjMenuModule != null)
+            dorjMenuModule.setItemHighlightColor(color);
     }
 
     /**
@@ -503,14 +503,14 @@ public class SideDrawerMenu extends LinearLayout {
     public void setMenuType(MenuType type) {
         this.menuType = type;
 
-        drawerMenuModule = (type == MenuType.MENU_SUBLIST) ? findViewById(R.id.menu_list) : findViewById(R.id.menu_page);
+        dorjMenuModule = (type == MenuType.MENU_SUBLIST) ? findViewById(R.id.menu_list) : findViewById(R.id.menu_page);
 
-        if (drawerMenuModule == null) return;
+        if (dorjMenuModule == null) return;
 
-        drawerMenuModule.setVisibility(VISIBLE);
-        drawerMenuModule.setItems(items);
-        if (highlightColor != -1) drawerMenuModule.setItemHighlightColor(highlightColor);
-        if (listener != null) drawerMenuModule.setListener(listener);
+        dorjMenuModule.setVisibility(VISIBLE);
+        dorjMenuModule.setItems(items);
+        if (highlightColor != -1) dorjMenuModule.setItemHighlightColor(highlightColor);
+        if (listener != null) dorjMenuModule.setListener(listener);
 
     }
 
