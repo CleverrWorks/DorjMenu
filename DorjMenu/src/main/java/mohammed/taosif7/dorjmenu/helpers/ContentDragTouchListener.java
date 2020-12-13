@@ -1,11 +1,11 @@
-package saleh.taosif7.dorjmenu.helpers;
+package mohammed.taosif7.dorjmenu.helpers;
 
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import saleh.taosif7.dorjmenu.DorjMenu;
+import mohammed.taosif7.dorjmenu.DorjMenu;
 
 
 public class ContentDragTouchListener implements View.OnTouchListener {

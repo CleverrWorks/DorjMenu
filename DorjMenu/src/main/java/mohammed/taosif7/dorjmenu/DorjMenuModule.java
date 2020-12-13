@@ -1,4 +1,4 @@
-package saleh.taosif7.dorjmenu;
+package mohammed.taosif7.dorjmenu;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,8 +7,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
-import saleh.taosif7.dorjmenu.models.menuItem;
+import mohammed.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import mohammed.taosif7.dorjmenu.models.menuItem;
 
 public abstract class DorjMenuModule extends RelativeLayout {
 

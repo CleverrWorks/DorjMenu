@@ -1,4 +1,4 @@
-package saleh.taosif7.dorjmenu;
+package mohammed.taosif7.dorjmenu;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -37,11 +37,11 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
-import saleh.taosif7.dorjmenu.helpers.ContentDragTouchListener;
-import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
-import saleh.taosif7.dorjmenu.helpers.HelperMethods;
-import saleh.taosif7.dorjmenu.helpers.MenuDragTouchListener;
-import saleh.taosif7.dorjmenu.models.menuItem;
+import mohammed.taosif7.dorjmenu.helpers.ContentDragTouchListener;
+import mohammed.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import mohammed.taosif7.dorjmenu.helpers.HelperMethods;
+import mohammed.taosif7.dorjmenu.helpers.MenuDragTouchListener;
+import mohammed.taosif7.dorjmenu.models.menuItem;
 
 public class DorjMenu extends LinearLayout {
 

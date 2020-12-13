@@ -1,4 +1,4 @@
-package saleh.taosif7.dorjmenu;
+package mohammed.taosif7.dorjmenu;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import saleh.taosif7.dorjmenu.models.menuItem;
+import mohammed.taosif7.dorjmenu.models.menuItem;
 
-class ListMenu extends saleh.taosif7.dorjmenu.DorjMenuModule {
+class ListMenu extends mohammed.taosif7.dorjmenu.DorjMenuModule {
 
     // Data
     Map<String, View> highlighterViews = new HashMap<String, View>();

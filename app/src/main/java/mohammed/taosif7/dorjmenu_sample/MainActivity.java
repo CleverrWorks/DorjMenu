@@ -1,4 +1,4 @@
-package saleh.taosif7.dorjmenu_sample;
+package mohammed.taosif7.dorjmenu_sample;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,9 +24,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import saleh.taosif7.dorjmenu.DorjMenu;
-import saleh.taosif7.dorjmenu.helpers.DrawerCallbacks;
-import saleh.taosif7.dorjmenu.models.menuItem;
+import mohammed.taosif7.dorjmenu.DorjMenu;
+import mohammed.taosif7.dorjmenu.helpers.DrawerCallbacks;
+import mohammed.taosif7.dorjmenu.models.menuItem;
 
 public class MainActivity extends AppCompatActivity implements DrawerCallbacks {
 
