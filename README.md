@@ -58,13 +58,22 @@ menu.attachToActivity(
 ## Controlling DorjMenu
 
 To open menu programatically
-> menu.`openMenu()`;
+
+```java
+menu.openMenu();
+```
 
 To close menu programatically
-> menu.`closeMenu()`;
+
+```java
+menu.closeMenu();
+```
 
 To toggle open/close menu programatically
-> menu.`toggleMenu()`;
+
+```java
+menu.toggleMenu();
+```
 
 <br>
 <br>
@@ -241,10 +250,19 @@ menu.forceRTLLayout(Boolean enable);
 ## Other Customisations
 
 To set the amount of screen that is covered by menu (value can be between 0.6 to 1.0 (percentage of screen))  
-> menu.`setMenuOpenFactor(double percent)`;  
+
+```java
+menu.setMenuOpenFactor(double percent);
+```  
 
 To set the duration of menu open/close animation
-> menu.`setGlideDuration(long duration)`;
+
+```java
+menu.setGlideDuration(long duration);
+```
 
 Menu has an accent colour which is applied to various parts by default such as CTA Button or Item highlight colour (more in future). To change the colour:
-> menu.`setMenuAccentColor(int resolved_color)`;
+
+```java
+menu.setMenuAccentColor(int resolved_color);
+```
