@@ -31,10 +31,23 @@ All Implementation and example is demonstrated in [sample app](app/src/main/java
 
 ## Installation
 
-Add this to your app's build.gradle file
+Add This in your root build.gradle at the end of repositories:
 
 ```java
-implementation 'com.github.cleverrworks:DorjMenu:1.0.0'
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+Add the dependency to your app's build.gradle file
+
+```java
+dependencies {
+  implementation 'com.github.cleverrworks:dorjmenu:1.0.0'
+}
 ```
 
 
