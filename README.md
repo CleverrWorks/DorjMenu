@@ -22,6 +22,7 @@ All Implementation and example is demonstrated in [sample app](app/src/main/java
   - [CTA Button](#cta-button)
   - [RTL Layout](#rtl-layout)
   - [Other Customisations](#other-customisations)
+  - [License & Copyright](#license--copyright)
 
 <br>
 
@@ -107,7 +108,7 @@ Menu Items can be set by calling `setItems(List<menuItem>)`
 
 This function takes list of [`menuItem`](DorjMenu/src/main/java/mohammed/taosif7/dorjmenu/models/menuItem.java). menuItem is a node-like object that means it can have child and parent, thus you can construct a submenu.  
 
-To add a child to a menuItem, call `addSubItem(menuItem)`] or to add multiple children call `addSubItems(menuItem1, menuItem1, menuItem3, ...)`
+To add a child to a menuItem, call `addSubItem(menuItem)` or to add multiple children call `addSubItems(menuItem1, menuItem1, menuItem3, ...)`
 
 ```java
 // Menu Item with drawable icon
@@ -267,7 +268,7 @@ If Button colour is not provided, menu's Accent colour is used. Menu Accent colo
 
 ## RTL Layout
 
-Rigth to Left (RTL) layout can be enabled if the Menu Items are in RTL Languages like Arabic, Hebrew, Persion, etc. By default, the menu should automatically adapt to RTL if App's layout mode is RTL. But you can enforce RTL Layout of the menu by:
+Rigth to Left (RTL) layout can be enabled if the Menu Items are in RTL Languages like Arabic, Hebrew, Persian, etc. By default, the menu should automatically adapt to RTL if App's layout mode is RTL. But you can enforce RTL Layout of the menu by:
 
 ```java
 // Provide true to enforce RTL, false to enforce LTR
@@ -299,3 +300,9 @@ menu.setMenuAccentColor(int resolved_color);
 
 <br>
 <br>
+
+## License & Copyright
+
+© Mohammed Ahmed & Taosif Jamal
+
+Licensed under the [MIT LICENSE](LICENSE).
