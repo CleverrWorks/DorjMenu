@@ -6,6 +6,9 @@
 
 A Drawer library that supports List and Page style menu Items, RTL Layout, Dark Mode, Full customizability and Ease of Use.  
 
+Sample App:  
+[![DorMenu Sample App](https://imgur.com/czX9JUY.png)](http://www.youtube.com/watch?v=vfPkVPk7MCc)
+
 All Implementation and example is demonstrated in [sample app](app/src/main/java/mohammed/taosif7/dorjmenu_sample/MainActivity.java)
   
 - [Dorj Menu Library](#dorj-menu-library)
@@ -20,6 +23,12 @@ All Implementation and example is demonstrated in [sample app](app/src/main/java
   - [RTL Layout](#rtl-layout)
   - [Other Customisations](#other-customisations)
 
+<br>
+
+---
+
+<br>
+
 ## Installation
 
 Add this to your app's build.gradle file
@@ -27,6 +36,7 @@ Add this to your app's build.gradle file
 ```java
 implementation 'com.github.cleverrworks:DorjMenu:1.0.0'
 ```
+
 
 <br>
 <br>
@@ -128,7 +138,7 @@ This will construct the menu as:
 This way, you can construct menu upto any level, They'll be displayed as submenu or as Pages depending upon type that you set.   
 
 To set the menu type, call
->menu.`setMenuType(MenuType)`;
+> menu.`setMenuType(MenuType)`;
 
 <br>
 <br>
@@ -138,6 +148,7 @@ To set the menu type, call
 When you create instance of the drawer, its second argument is [`DrawerCallbacks`](DorjMenu/src/main/java/mohammed/taosif7/dorjmenu/helpers/DrawerCallbacks.java) which is an interface. So either you can implement that to your Activity class or create anonymous class and supply it as an argument. (See [Sample App](app/src/main/java/mohammed/taosif7/dorjmenu_sample/MainActivity.java))  
 
 When you click an item in menu, there are two cases:
+
 - If Menu is SubList type :
   - If Item has sub-item : `Menu Will Expand Sub menu`
   - If Item has no sub-item : `onDrawerMenuItemClick(menuItem)` *will be called*
@@ -171,6 +182,19 @@ Since this method can be called anytime during runtime, you can use it smartly t
 
 ## Customising The Header
 
+![Header content explaination](https://imgur.com/DMv5s20.png)
+
+To set the profile picture, email & username:
+
+```java
+menu.setUserDetails(
+    profile_pic, // Drawable for Profile pic image, can be null
+    "Username", // Can be null
+    "Email", // Can be null
+    true, // Show placeholder if username/email is null and profile_pic is not provided
+);
+```
+
 By Default, Header will have a background Image, to change it:
 
 ```java
@@ -183,17 +207,6 @@ The Header background has shade to it, if you want to remove it:
 menu.showHeaderShadow(boolean);
 ```
 
-To set the profile picture, email & username:
-
-```java
-menu.setUserDetails(
-    profile_pic, // Drawable for Profile pic image, can be null
-    "Username", // Can be null
-    "Email", // Can be null
-    true, // Show placeholder if username/email is null
-);
-```
-
 To set the Header Button:
 
 ```java
@@ -204,6 +217,8 @@ menu.setHeaderButton(Drawable icon, View.OnClickListener action);
 <br>
 
 ## Persistent Button
+
+![Persistent Button Location](https://imgur.com/5KN7bZc.png)
 
 Persistent button is visually menuItem button shown at the bottom of drawer and is visible at all the time. to set a persistent button,
 
@@ -219,6 +234,8 @@ menu.setPersistentButton(
 <br>
 
 ## CTA Button
+
+![CTA Button Location](https://imgur.com/1tYzbWB.png)
 
 A Call To Action (CTA) Button is a button that attracts user to take an action. This button is shown above the persistent button (if visible) or at the bottom of the drawer.
 
@@ -266,3 +283,6 @@ Menu has an accent colour which is applied to various parts by default such as C
 ```java
 menu.setMenuAccentColor(int resolved_color);
 ```
+
+<br>
+<br>
